@@ -16,14 +16,14 @@ HEADER			=			get_next_line.h
 SRCS_BOUNS 		=			get_next_line_bonus.c		get_next_line_utils_bonus.c
 HEADER_BONUS	=			get_next_line.h
 ################ OTHERs		##################
-BUF				=			42
+BUF				=			5
 F_BUFF			=			-D BUFFER_SIZE=$(BUF)
 FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################
 all: 		$(NAME)
 
 %.o: 		%.c
-	cc 			-o $@ -c $< $(FLAGS) -D BUFFER_SIZE=3
+	cc 			-o $@ -c $< $(FLAGS) $(F_BUFF)
 
 $(NAME): 	$(SRCS:.c=.o)
 #	cc			-o $@ -c $(SRCS:.c=.o) $(FLAGS) $(F_BUFF)

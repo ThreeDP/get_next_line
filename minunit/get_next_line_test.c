@@ -6,7 +6,7 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:50:44 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/09 19:22:29 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:50:33 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ MU_TEST_SUITE(test_check) {
 	//ARRANGE
 	int		fd;
 	char	*read;
-	char	expected[] = "42";
+	char	expected[] = "TU";
 	
 	//ACT
 	fd = open("42", O_RDONLY);
