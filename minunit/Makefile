@@ -9,17 +9,23 @@ L_GREEN			=			'\033[0;32m'
 L_GREENB		=			'\033[1;32m'
 ################ CONFIG		##################
 DIR 			= 			../srcs/
-SRCS 			= 			$(wildcard ./*.c)
+SRCS_TEST 		= 			$(wildcard ./*.c)
+SRCS			=			$(wildcard $(DIR)*.c)
 HEADERS 		= 			minunit.h
-FLAGS 			= 			-Wall -Werror -Wextra
+################ OTHERs		##################
+BUF				=			5
+F_BUFF			=			-D BUFFER_SIZE=$(BUF)
+FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################
 
-all: 		$(SRCS:.c=.o)
+all: 		$(SRCS:.c=.o) $(SRCS_TEST:.c=.o)
 
-%.o: 		%.c $(HEADERS) 
-	@cd 		$(DIR) && $(MAKE)
+%.o: 		%.c $(HEADERS)
+	cc 			-o $@ -c $< $(FLAGS) $(F_BUFF)
+
+$(SRCS_TEST:.c=.o):
 	cc 			-o $@ -c $(@:.o=.c) $(FLAGS)
-	gcc			$@ $(addprefix $(DIR), get_next_line.o) $(FLAGS)
+	gcc			$@ $(SRCS) $(FLAGS) $
 	@echo		"$(L_YELLOWB)"RUN TEST: $@ "$(L_WHITE)"
 	@./a.out
 

@@ -21,10 +21,13 @@ MU_TEST_SUITE(test_check) {
 	
 	//ACT
 	fd = open("42", O_RDONLY);
+	if (fd == -1)
+		return (-1);
 	read = get_next_line(fd);
 
 	//ASSERT
 	mu_assert_string_eq(expected, read);
+	close(fd);
 }
 
 MU_TEST_SUITE(test_suite)

@@ -23,10 +23,10 @@ FLAGS 			=			-Wall -Werror -Wextra
 all: 		$(NAME)
 
 %.o: 		%.c
-	cc 			-o $@ -c $< $(FLAGS) $(F_BUFF)
+	gcc 			-o $@ -c $< $(FLAGS) $(F_BUFF)
 
 $(NAME): 	$(SRCS:.c=.o)
-#	cc			-o $@ -c $(SRCS:.c=.o) $(FLAGS) $(F_BUFF)
+	cc			-o $@ -c $(SRCS:.c=.o) $(FLAGS) $(F_BUFF)
 	@echo		"$(L_YELLOWB) Mandatory Part... $(L_WHITE)"
 
 norm:
