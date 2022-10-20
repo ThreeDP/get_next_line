@@ -25,7 +25,7 @@ all: 		$(SRCS:.c=.o) $(SRCS_TEST:.c=.o)
 
 $(SRCS_TEST:.c=.o):
 	cc 			-o $@ -c $(@:.o=.c) $(FLAGS)
-	gcc			$@ $(SRCS) $(FLAGS) $
+	gcc			$@ $(SRCS:.c=.o) $(FLAGS)
 	@echo		"$(L_YELLOWB)"RUN TEST: $@ "$(L_WHITE)"
 	@./a.out
 
@@ -33,8 +33,8 @@ norm:
 	@cd 		$(DIR) && $(MAKE) $@
 
 cleann:
-	@rm 		-f tests_libft.o
-	@rm			-f $(SRCS:.c=.o)
+	@rm 		-f $(SRCS_TEST:.c=.o)
+	@rm		-f $(SRCS:.c=.o)
 	
 
 clean:		cleann
