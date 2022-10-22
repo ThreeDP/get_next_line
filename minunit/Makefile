@@ -18,14 +18,10 @@ F_BUFF			=			-D BUFFER_SIZE=$(BUF)
 FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################
 
-all: 		$(SRCS:.c=.o) $(SRCS_TEST:.c=.o)
+all: 		 $(SRCS_TEST:.c=.o)
 
 %.o: 		%.c $(HEADERS)
-	cc 			-o $@ -c $< $(FLAGS) $(F_BUFF)
-
-$(SRCS_TEST:.c=.o):
-	cc 			-o $@ -c $(@:.o=.c) $(FLAGS)
-	gcc			$@ $(SRCS:.c=.o) $(FLAGS)
+	gcc		$< $(SRCS) $(FLAGS) $(F_BUFF)
 	@echo		"$(L_YELLOWB)"RUN TEST: $@ "$(L_WHITE)"
 	@./a.out
 
@@ -42,7 +38,7 @@ clean:		cleann
 
 
 fclean: 	cleann
-	@rm 		-f run.exec
+	@rm 		-f a.out
 	@cd 		$(DIR) && $(MAKE) $@
 
 re: fclean all

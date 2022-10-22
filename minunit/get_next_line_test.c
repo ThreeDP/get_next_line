@@ -13,26 +13,48 @@
 #include "minunit.h"
 #include "../srcs/get_next_line.h"
 
-MU_TEST_SUITE(test_check) {
+MU_TEST_SUITE(passing_a_file_with_TU_string_with_a_BUFFERSIZE_5_should_be_TU)
+{
 	//ARRANGE
 	int		fd;
-	char	*read;
-	char	expected[] = "TU";
+	char	*read_f;
+	char	expected[] = "TU\n";
 	
 	//ACT
 	fd = open("42", O_RDONLY);
 	if (fd == -1)
 		return ;
-	read = get_next_line(fd);
+	read_f = get_next_line(fd);
 
 	//ASSERT
-	mu_assert_string_eq(expected, read);
+	mu_assert_string_eq(expected, read_f);
+	free(read_f);
+	close(fd);
+}
+
+MU_TEST_SUITE(test_check)
+{
+	//ARRANGE
+	int		fd;
+	char	*read_f;
+	char	expected[] = "One Ring to rule them all\n";
+	
+	//ACT
+	fd = open("42_1", O_RDONLY);
+	if (fd == -1)
+		return ;
+	read_f = get_next_line(fd);
+
+	//ASSERT
+	mu_assert_string_eq(expected, read_f);
+	free(read_f);
 	close(fd);
 }
 
 MU_TEST_SUITE(test_suite)
-{
+{	
 	MU_RUN_TEST(test_check);
+	MU_RUN_TEST(passing_a_file_with_TU_string_with_a_BUFFERSIZE_5_should_be_TU);
 }
 
 int main() {
