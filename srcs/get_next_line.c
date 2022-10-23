@@ -74,29 +74,37 @@ char	*ft_strdup(const char *s)
 char	*get_next_line(int fd)
 {
 	static	char 	buf[BUFFER_SIZE];
-	t_list	*lst;
-	t_list	*ret;
-	char	*ptr;
-	char	*s_pos;
-	size_t	s_ptr;
-	size_t	s_buf;
+	t_list		*lst;
+	t_list		*ret;
+	char		*ptr;
+	char		*s_pos;
+	size_t		s_ptr;
+	size_t		s_buf;
 
 	s_ptr = 0;
 	lst = ft_lstnew(NULL);
 	ret = lst;
-	while (1)
+	if (*buf)
 	{
+		printf("true'%c'", *buf);
+		*
+	}
+	while (1)
+	{ 
 		s_buf = read(fd, buf, BUFFER_SIZE);
+		printf("%s", buf);
 		s_pos = ft_strchr(buf, '\n');
-		if (s_pos)
-			buf[s_pos - buf + 1] = '\0';
 		lst -> content = ft_strdup(buf);
 		s_ptr += ft_strlen(lst -> content);
 		if (s_pos || s_buf < BUFFER_SIZE)
+		{
+			((char *)lst -> content)[s_pos - buf + 1] = '\0'; 
 			break ;
+		}
 		ft_lstadd_back(&lst, ft_lstnew(NULL));
 		lst = lst -> next;
 	}
+	printf("\n");
 	ptr = (char *) calloc(s_ptr + 1, sizeof(char));
 	lst = ret;
 	while (lst)
