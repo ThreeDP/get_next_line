@@ -13,21 +13,7 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-static char	*ft_strchr(const char *str, int c)
-{
-	size_t i;
-	char	cached_c;
-
-	i = 0;
-	cached_c = (char)c;
-	while (str[i] && str[i] != cached_c)
-		i++;
-	if (str[i] == cached_c)
-		return (&((char *)str)[i]);
-	return (0);
-}
-
-static size_t ft_strlen(const char *str)
+size_t ft_strlen(const char *str)
 {
 	int size;
 	
@@ -37,7 +23,7 @@ static size_t ft_strlen(const char *str)
 	return (size);
 }
 
-static size_t ft_strlcpy(char *dest, const char *src, size_t size)
+size_t ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t i;
 	
@@ -53,7 +39,7 @@ static size_t ft_strlcpy(char *dest, const char *src, size_t size)
 	return (ft_strlen(src));
 }
 
-static size_t ft_strlcat(char *dst, const char *src, size_t size)
+size_t ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	len_dst;
@@ -72,7 +58,7 @@ static size_t ft_strlcat(char *dst, const char *src, size_t size)
 	return (ft_strlen(dst) + ft_strlen(&cached_src[i]));
 }
 
-static char	*ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
 	char 	*ptr;
 	size_t	size_str;
@@ -83,67 +69,6 @@ static char	*ft_strdup(const char *s)
 		return (NULL);
 	ft_strlcpy(ptr, s, size_str + 1);
 	return(ptr);
-}
-
-static t_list	*ft_lstnew(void *content)
-{
-	t_list	*head;
-
-	head = malloc(sizeof(t_list));
-	if (!head)
-		return (NULL);
-	head -> content = content;
-	head -> next = NULL;
-	return (head);
-}
-
-t_list	*ft_lstlast(t_list * lst)
-{
-	t_list *tail;
-
-	if (!lst)
-		return (NULL);
-	while (lst)
-	{
-		tail = lst;
-		lst = lst -> next;
-	}
-	return (tail);
-}
-
-static void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*tail;
-
-	if (!lst || !new)
-		return ;
-	tail = ft_lstlast(*lst);
-	if (tail == NULL)
-		*lst = new;
-	else
-		tail -> next = new;
-}
-
-static void	ft_lstdelone(t_list *lst, void (*del)(void *))
-{
-	del(lst -> content);
-	free(lst);
-}
-
-static void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	t_list	*head;
-	t_list	*next;
-
-	head = *lst;
-	next = *lst;
-	while (next)
-	{
-		head = head -> next;
-		ft_lstdelone(next, del);
-		next = head;
-	}
-	*lst = NULL;
 }
 
 char	*get_next_line(int fd)

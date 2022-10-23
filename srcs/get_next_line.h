@@ -12,6 +12,10 @@ typedef struct a_list
 	struct a_list	*next;
 }	t_list;
 
-char	*get_next_line(int fd);
+t_list		*ft_new(void *content);
+t_list		*ft_lstlast(t_list *lst);
+void		ft_lstadd_back(t_list **lst, t_lst *new);
+void		ft_lstclear(t_list **lst, void (*del)(void *));
+char		*get_next_line(int fd);
 
 #endif

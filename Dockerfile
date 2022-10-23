@@ -4,6 +4,7 @@ RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install gcc -y
 RUN apt-get install make -y
+RUN apt-get install clang -y
 RUN apt-get install valgrind -y
 RUN apt-get install python3 -y
 RUN apt-get install python3-venv python3-pip -y
