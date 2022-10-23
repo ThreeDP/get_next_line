@@ -18,11 +18,11 @@ F_BUFF			=			-D BUFFER_SIZE=$(BUF)
 FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################
 
-all:		run
+all:		$(SRCS_TEST:.c=.o)
        
-run:		$(HEADERS)
-	gcc		$(SRCS_TEST) $(SRCS) $(FLAGS) $(F_BUFF)
-	@echo		"$(L_YELLOWB)"RUN TEST: GNL "$(L_WHITE)"
+%.o:	%.c	$(HEADERS)
+	gcc		$< $(SRCS) $(FLAGS) $(F_BUFF)
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
 	@./a.out
 
 norm:

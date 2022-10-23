@@ -71,47 +71,51 @@ char	*ft_strdup(const char *s)
 	return(ptr);
 }
 
+size_t	make_line(int fd, char *buffer, t_list **lst)
+{
+//	size_t	buf_size;
+	size_t	ptr_size;
+	char	*pos_c;
+
+	ptr_size = 0;
+	while (1)
+	{
+		if (*buffer != '\n')
+			read(fd, buffer, BUFFER_SIZE);
+		else
+			buffer++;
+		pos_c = ft_strchr(buffer, '\n');
+		(*lst) -> content = ft_strdup(buffer);
+		if (pos_c)
+		{
+			((char *)(*lst) -> content)[pos_c - buffer + 1] = '\0';
+			break ;
+		}
+		ptr_size += ft_strlen((*lst) -> content);
+		ft_lstadd_back(lst, ft_lstnew(NULL));
+		(*lst) = (*lst) -> next;
+	}
+	return (ptr_size + ft_strlen((*lst) -> content));
+}
+
 char	*get_next_line(int fd)
 {
 	static	char 	buf[BUFFER_SIZE];
 	t_list		*lst;
 	t_list		*ret;
-	char		*ptr;
-	char		*s_pos;
-	size_t		s_ptr;
-	size_t		s_buf;
+	char		*line;
+	size_t		line_size;
 
-	s_ptr = 0;
 	lst = ft_lstnew(NULL);
 	ret = lst;
-	if (*buf)
-	{
-		printf("true'%c'", *buf);
-		*
-	}
-	while (1)
-	{ 
-		s_buf = read(fd, buf, BUFFER_SIZE);
-		printf("%s", buf);
-		s_pos = ft_strchr(buf, '\n');
-		lst -> content = ft_strdup(buf);
-		s_ptr += ft_strlen(lst -> content);
-		if (s_pos || s_buf < BUFFER_SIZE)
-		{
-			((char *)lst -> content)[s_pos - buf + 1] = '\0'; 
-			break ;
-		}
-		ft_lstadd_back(&lst, ft_lstnew(NULL));
-		lst = lst -> next;
-	}
-	printf("\n");
-	ptr = (char *) calloc(s_ptr + 1, sizeof(char));
+	line_size = make_line(fd, buf, &lst);
+	line = (char *) calloc(line_size + 1, sizeof(char));
 	lst = ret;
 	while (lst)
 	{
-		ft_strlcat(ptr, lst -> content, s_ptr + 1);
+		ft_strlcat(line, lst -> content, line_size + 1);
 		lst = lst -> next;
 	}
 	ft_lstclear(&ret, free);
-	return (ptr);
+	return (line);
 }
