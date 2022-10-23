@@ -73,37 +73,35 @@ char	*ft_strdup(const char *s)
 
 char	*get_next_line(int fd)
 {
-	char 	put_buffer[BUFFER_SIZE];
+	static	char 	buf[BUFFER_SIZE];
 	t_list	*lst;
 	t_list	*ret;
 	char	*ptr;
-	size_t		i;
 	char	*s_pos;
+	size_t	s_ptr;
+	size_t	s_buf;
 
-	i = 0;
+	s_ptr = 0;
 	lst = ft_lstnew(NULL);
 	ret = lst;
-	while (i < 100)
+	while (1)
 	{
-		read(fd, put_buffer, BUFFER_SIZE);
-		s_pos = ft_strchr(put_buffer, '\n');
+		s_buf = read(fd, buf, BUFFER_SIZE);
+		s_pos = ft_strchr(buf, '\n');
 		if (s_pos)
-		{
-			put_buffer[s_pos - put_buffer + 1] = '\0';
-			lst -> content = ft_strdup(put_buffer);
-			i += ft_strlen(put_buffer);
+			buf[s_pos - buf + 1] = '\0';
+		lst -> content = ft_strdup(buf);
+		s_ptr += ft_strlen(lst -> content);
+		if (s_pos || s_buf < BUFFER_SIZE)
 			break ;
-		}
-		lst -> content = ft_strdup(put_buffer);
-		i += ft_strlen(lst -> content);
 		ft_lstadd_back(&lst, ft_lstnew(NULL));
 		lst = lst -> next;
 	}
-	ptr = (char *) calloc(i + 1, 1);
+	ptr = (char *) calloc(s_ptr + 1, sizeof(char));
 	lst = ret;
 	while (lst)
 	{
-		ft_strlcat(ptr, lst -> content, i + 1);
+		ft_strlcat(ptr, lst -> content, s_ptr + 1);
 		lst = lst -> next;
 	}
 	ft_lstclear(&ret, free);

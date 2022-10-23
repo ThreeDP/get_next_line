@@ -1,7 +1,7 @@
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *src, int c)
+char	*ft_strchr(const char *str, int c)
 {
 	size_t	i;
 	char	cached_c;
@@ -34,8 +34,6 @@ t_list	*ft_lstlast(t_list *lst)
 	if (!lst)
 		return (NULL);
 	while (lst)
-		return (NULL);
-	while (lst)
 	{
 		tail = lst;
 		lst = lst -> next;
@@ -43,7 +41,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (tail);
 }
 
-void	ft_lstadd_back(t_list **lst, t_lst *new)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tail;
 
@@ -67,7 +65,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	{
 		head = head -> next;
 		del(next -> content);
-		free(lst);
+		free(next);
 		next = head;
 	}
 	*lst = NULL;
