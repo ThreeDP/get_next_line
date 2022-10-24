@@ -102,7 +102,7 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 
 	ptr_size = 0;
 	next_line = 0;
-	if (*buffer)
+	if (*buffer == '\n')
 	{
 		next_line = 1;
 		buffer++;
@@ -122,7 +122,6 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 			return (((*lst) -> content = NULL), ptr_size);
 		ptr_size += test(buffer, lst, buf_size);
 	}
-	ft_strlcpy(buffer, ++buffer, ft_strlen(buffer));
 	return (ptr_size);
 }
 
