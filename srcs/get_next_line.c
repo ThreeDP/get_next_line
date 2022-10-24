@@ -122,7 +122,7 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 			return (((*lst) -> content = NULL), ptr_size);
 		ptr_size += test(buffer, lst, buf_size);
 	}
-	buffer = ++buffer;
+	ft_strlcpy(buffer, ++buffer, ft_strlen(buffer));
 	return (ptr_size);
 }
 
