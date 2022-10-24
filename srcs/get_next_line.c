@@ -103,17 +103,14 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 	ptr_size = 0;
 	next_line = 0;
 	if (*buffer == '\n')
-	{
 		next_line = 1;
-		buffer++;
-	}
 	while (1)
 	{
 		if ((*lst) -> end_line)
 			break ;
 		if (next_line)
 		{
-			ptr_size += test(buffer, lst, ft_strlen(buffer));
+			ptr_size += test(buffer++, lst, ft_strlen(buffer));
 			next_line = 0;
 			continue ;
 		}
