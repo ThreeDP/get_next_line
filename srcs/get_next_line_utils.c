@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/24 09:31:00 by dapaulin          #+#    #+#             */
+/*   Updated: 2022/10/24 09:31:00 by dapaulin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
@@ -15,7 +26,7 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(char *content, t_bool end_line)
 {
 	t_list	*head;
 
@@ -23,6 +34,7 @@ t_list	*ft_lstnew(void *content)
 	if (!head)
 		return (NULL);
 	head -> content = content;
+	head -> end_line = end_line;
 	head -> next = NULL;
 	return (head);
 }
