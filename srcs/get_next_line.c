@@ -140,9 +140,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	ret = lst;
 	line_size = make_line(fd, buf, &lst);
-	if (!line_size)
-		return (NULL);
+	if (!line_size || !lst -> content)
+		return (ft_lstclear(&ret, free), NULL);
 	line = (char *) calloc(line_size + 1, sizeof(char));
+	printf("\nString\t%s\n", lst -> content);
 	lst = ret;
 	while (lst)
 	{
