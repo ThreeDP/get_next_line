@@ -13,7 +13,7 @@ SRCS_TEST 		= 			$(wildcard ./*.c)
 SRCS			=			$(wildcard $(DIR)*.c)
 HEADERS 		= 			minunit.h
 ################ OTHERs		##################
-BUF				=			5
+BUF			=			1
 F_BUFF			=			-D BUFFER_SIZE=$(BUF)
 FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################

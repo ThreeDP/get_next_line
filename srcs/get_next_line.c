@@ -29,33 +29,31 @@ size_t ft_strlcpy(char *dest, const char *src, size_t size)
 	
 	i = 0;
 	if (size == 0)
-		return (ft_strlen(src));
+		return (0);
 	while (i < (size -1) && src[i])
 	{
 		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
-	return (ft_strlen(src));
+	return (0);
 }
 
 size_t ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	len_dst;
-	size_t	len_src;
 	char	*cached_src;
 
 	i = 0;
 	len_dst = ft_strlen(dst);
-	len_src = ft_strlen(src);
 	cached_src = (char *)src;
 	if (size <= len_dst)
-		return (size + len_src);
+		return (0);
 	while (cached_src[i] && (len_dst + 1) < size)
 		dst[len_dst++] = cached_src[i++];
 	dst[len_dst] = '\0';
-	return (ft_strlen(dst) + ft_strlen(&cached_src[i]));
+	return (0);
 }
 
 char	*ft_strdup(const char *s)
@@ -73,7 +71,7 @@ char	*ft_strdup(const char *s)
 
 size_t	make_line(int fd, char *buffer, t_list **lst)
 {
-//	size_t	buf_size;
+	size_t	buf_size;
 	size_t	ptr_size;
 	char	*pos_c;
 
@@ -81,9 +79,13 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 	while (1)
 	{
 		if (*buffer != '\n')
-			read(fd, buffer, BUFFER_SIZE);
+			buf_size = read(fd, buffer, BUFFER_SIZE);
 		else
+		{
+			buf_size = ft_strlen(buffer);
 			buffer++;
+		}
+//		printf("\nbuffer ->\t%zu\n", buf_size);
 		pos_c = ft_strchr(buffer, '\n');
 		(*lst) -> content = ft_strdup(buffer);
 		if (pos_c)
@@ -91,6 +93,8 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 			((char *)(*lst) -> content)[pos_c - buffer + 1] = '\0';
 			break ;
 		}
+		else if (buf_size < BUFFER_SIZE)
+			break ;
 		ptr_size += ft_strlen((*lst) -> content);
 		ft_lstadd_back(lst, ft_lstnew(NULL));
 		(*lst) = (*lst) -> next;
@@ -106,9 +110,17 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		line_size;
 
+//	printf("O fd -> \t%i\tResult%zu\n", fd, read(fd, buf, BUFFER_SIZE));
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	lst = ft_lstnew(NULL);
+	if (!lst)
+		return (NULL);
 	ret = lst;
 	line_size = make_line(fd, buf, &lst);
+//	printf("\nnu -> %zu\t %s\n", line_size, (char *)lst -> content);
+	if (!line_size)
+		return (NULL);
 	line = (char *) calloc(line_size + 1, sizeof(char));
 	lst = ret;
 	while (lst)

@@ -21,7 +21,7 @@ MU_TEST_SUITE(passing_a_file_with_TU_string_with_a_BUFFERSIZE_5_should_be_TU)
 	char	expected[] = "TU\n";
 	
 	//ACT
-	fd = open("42", O_RDONLY);
+	fd = open("files/42", O_RDONLY);
 	if (fd == -1)
 		return ;
 	read_f = get_next_line(fd);

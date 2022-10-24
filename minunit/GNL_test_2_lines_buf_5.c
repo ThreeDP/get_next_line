@@ -23,7 +23,7 @@ MU_TEST_SUITE(test_check)
 
 	
 	//ACT
-	fd = open("42_1", O_RDONLY);
+	fd = open("files/42_1", O_RDONLY);
 	if (fd == -1)
 		return ;
 

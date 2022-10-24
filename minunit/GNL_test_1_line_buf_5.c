@@ -21,7 +21,7 @@ MU_TEST_SUITE(passing_a_file_with_a_text_and_catch_the_first_line_with_size_5_sh
 	char	expected[] = "One Ring to rule them all\n";
 	
 	//ACT
-	fd = open("42_1", O_RDONLY);
+	fd = open("./files/42_1", O_RDONLY);
 	if (fd == -1)
 		return ;
 	read_f = get_next_line(fd);
