@@ -81,12 +81,12 @@ size_t	test(char *buffer, t_list **lst, size_t buf_size)
 	{
 		(*lst) -> end_line = TRUE;
 		((*lst) -> content)[pos_c - buffer + 1] = '\0';
-		return (ptr_size);
+		return (ptr_size + ft_strlen((*lst) -> content));
 	}
 	else if (buf_size < BUFFER_SIZE)
 	{
 		(*lst) -> end_line = TRUE;
-		return (ptr_size);
+		return (ptr_size + ft_strlen((*lst) -> content));
 	}
 	ptr_size += ft_strlen((*lst) -> content);
 	ft_lstadd_back(lst, ft_lstnew(NULL, FALSE));
@@ -110,7 +110,7 @@ size_t	make_line(int fd, char *buffer, t_list **lst)
 			break ;
 		if (next_line)
 		{
-			ptr_size += test(buffer++, lst, ft_strlen(buffer));
+			ptr_size += test(buffer + 1, lst, ft_strlen(buffer));
 			next_line = 0;
 			continue ;
 		}
