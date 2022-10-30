@@ -6,7 +6,7 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:47:22 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/30 13:59:49 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:51:56 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (0);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(const char *s, size_t size)
 {
 	char	*ptr;
-	size_t	size_str;
 
-	size_str = ft_strlen(s);
-	ptr = (char *) malloc(size_str * sizeof(char) + 1);
+	ptr = (char *) malloc(size * sizeof(char) + 1);
 	if (!ptr)
 		return (NULL);
-	ft_strlcpy(ptr, s, size_str + 1);
+	ft_strlcpy(ptr, s, size + 1);
 	return (ptr);
 }
 
@@ -94,36 +92,42 @@ end of the file			*/
 size_t	fill_list(int fd, char *buf, t_list **lst)
 {
 	size_t	line_size;
-	size_t	*c_pos;
+	size_t	buf_z;
+	char	*c_pos;
 
 	line_size = 0;
-	while (1)
+	while (line_size < 20)
 	{
-		(*lst)-> content = ft_strdup(buf);
-		c_pos = ft_strchr(buf )
-		if (ft_strdup((*lst)-> content))
+		c_pos = ft_strchr(buf, '\n');
+		if (c_pos)
 		{
-			line_size = ft
+			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 1);
+			line_size += (c_pos - buf) + 1;
 			break ;
 		}
+		buf_z = ft_strlen(buf);
+		(*lst)-> content = ft_strdup(buf, buf_z);
+		line_size += buf_z;
 		ft_lstadd_back(lst, ft_lstnew(NULL));
 		(*lst) = (*lst)-> next;
 		read(fd, buf, BUFFER_SIZE);
 	}
+	return (line_size);
 }
 
 size_t	check_static(int fd, t_list **lst)
 {
 	char		*c_pos;
+	size_t		line_size;
 	static char	buf[BUFFER_SIZE];
 	
 	c_pos = ft_strchr(buf, '\n');
-	if (c_pos && (c_pos < BUFFER_SIZE))
-		line_size = fill_list(fd, &buf[c_pos - buf + 1], &lst);
+	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
+		line_size = fill_list(fd, &buf[c_pos - buf + 1], lst);
 	else
 	{
 		read(fd, buf, BUFFER_SIZE);
-		line_size = fill_list(fd, &buf, &lst);
+		line_size = fill_list(fd, buf, lst);
 	}
 	return (line_size);
 }
@@ -141,6 +145,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line_size = check_static(fd, &lst);
 	line = create_line(&lst, line_size);
-	ft_lstclear(&ret, free);
+	ft_lstclear(&lst, free);
 	return (line);
 }

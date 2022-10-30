@@ -6,7 +6,7 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 09:31:00 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/30 04:02:34 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/30 15:32:50 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-t_list	*ft_lstnew(char *content, t_bool end_line)
+t_list	*ft_lstnew(char *content)
 {
 	t_list	*head;
 
@@ -34,7 +34,6 @@ t_list	*ft_lstnew(char *content, t_bool end_line)
 	if (!head)
 		return (NULL);
 	head -> content = content;
-	head -> end_line = end_line;
 	head -> next = NULL;
 	return (head);
 }
