@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_test.c                               :+:      :+:    :+:   */
+/*   GNL_test_1_line_buf_5.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:50:44 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/09 19:50:33 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/30 03:59:08 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ MU_TEST_SUITE(passing_a_file_with_a_text_and_catch_the_first_line_with_size_5_sh
 	free(read_f);
 	close(fd);
 }
+
 
 MU_TEST_SUITE(test_suite)
 {	

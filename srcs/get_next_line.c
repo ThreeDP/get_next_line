@@ -6,27 +6,27 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:47:22 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/09 20:28:03 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:59:49 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-size_t ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	int size;
-	
+	int	size;
+
 	size = 0;
 	while (str[size])
 		size++;
 	return (size);
 }
 
-size_t ft_strlcpy(char *dest, const char *src, size_t size)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t i;
-	
+	size_t	i;
+
 	i = 0;
 	if (size == 0)
 		return (0);
@@ -39,7 +39,7 @@ size_t ft_strlcpy(char *dest, const char *src, size_t size)
 	return (0);
 }
 
-size_t ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 	size_t	len_dst;
@@ -58,7 +58,7 @@ size_t ft_strlcat(char *dst, const char *src, size_t size)
 
 char	*ft_strdup(const char *s)
 {
-	char 	*ptr;
+	char	*ptr;
 	size_t	size_str;
 
 	size_str = ft_strlen(s);
@@ -66,87 +66,81 @@ char	*ft_strdup(const char *s)
 	if (!ptr)
 		return (NULL);
 	ft_strlcpy(ptr, s, size_str + 1);
-	return(ptr);
+	return (ptr);
 }
 
-size_t	test(char *buffer, t_list **lst, size_t buf_size)
+/*
+Copy the structure data to a single array
+and return the line.						*/
+char	*create_line(t_list **lst, size_t line_size)
 {
-	char	*pos_c;
-	size_t	ptr_size;
+	char	*line;
 	
-	ptr_size = 0;
-	pos_c = ft_strchr(buffer, '\n');
-	(*lst) -> content = ft_strdup(buffer);
-	if (pos_c)
+	line = (char *) calloc(line_size + 1, sizeof(char));
+	if (!line)
+		return (NULL);
+	while ((*lst))
 	{
-		(*lst) -> end_line = TRUE;
-		((*lst) -> content)[pos_c - buffer + 1] = '\0';
-		return (ptr_size + ft_strlen((*lst) -> content));
+		ft_strlcat(line, (*lst)-> content, line_size + 1);
+		(*lst) = (*lst)-> next;
 	}
-	else if (buf_size < BUFFER_SIZE)
-	{
-		(*lst) -> end_line = TRUE;
-		return (ptr_size + ft_strlen((*lst) -> content));
-	}
-	ptr_size += ft_strlen((*lst) -> content);
-	ft_lstadd_back(lst, ft_lstnew(NULL, FALSE));
-	(*lst) = (*lst) -> next;
-	return (ptr_size);
+	return (line);
 }
 
-size_t	make_line(int fd, char *buffer, t_list **lst)
+/*
+Populate and create new nodes with characters from
+the file while not finding a \n character or the
+end of the file			*/
+size_t	fill_list(int fd, char *buf, t_list **lst)
 {
-	ssize_t	buf_size;
-	size_t	ptr_size;
-	int	next_line;
+	size_t	line_size;
+	size_t	*c_pos;
 
-	ptr_size = 0;
-	next_line = 0;
-	if (*buffer == '\n')
-		next_line = 1;
+	line_size = 0;
 	while (1)
 	{
-		if ((*lst) -> end_line)
-			break ;
-		if (next_line)
+		(*lst)-> content = ft_strdup(buf);
+		c_pos = ft_strchr(buf )
+		if (ft_strdup((*lst)-> content))
 		{
-			ptr_size += test(buffer + 1, lst, ft_strlen(buffer));
-			next_line = 0;
-			continue ;
+			line_size = ft
+			break ;
 		}
-		buf_size = read(fd, buffer, BUFFER_SIZE);
-		if (buf_size < 0)
-			return (((*lst) -> content = NULL), ptr_size);
-		ptr_size += test(buffer, lst, buf_size);
+		ft_lstadd_back(lst, ft_lstnew(NULL));
+		(*lst) = (*lst)-> next;
+		read(fd, buf, BUFFER_SIZE);
 	}
-	return (ptr_size);
+}
+
+size_t	check_static(int fd, t_list **lst)
+{
+	char		*c_pos;
+	static char	buf[BUFFER_SIZE];
+	
+	c_pos = ft_strchr(buf, '\n');
+	if (c_pos && (c_pos < BUFFER_SIZE))
+		line_size = fill_list(fd, &buf[c_pos - buf + 1], &lst);
+	else
+	{
+		read(fd, buf, BUFFER_SIZE);
+		line_size = fill_list(fd, &buf, &lst);
+	}
+	return (line_size);
 }
 
 char	*get_next_line(int fd)
 {
-	static	char 	buf[BUFFER_SIZE];
 	t_list		*lst;
-	t_list		*ret;
 	char		*line;
 	size_t		line_size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
-	lst = ft_lstnew(NULL, FALSE);
+	lst = ft_lstnew(NULL);
 	if (!lst)
 		return (NULL);
-	ret = lst;
-	line_size = make_line(fd, buf, &lst);
-	if (!line_size || !lst -> content)
-		return (ft_lstclear(&ret, free), NULL);
-	line = (char *) calloc(line_size + 1, sizeof(char));
-	printf("\nString\t%s\n", lst -> content);
-	lst = ret;
-	while (lst)
-	{
-		ft_strlcat(line, lst -> content, line_size + 1);
-		lst = lst -> next;
-	}
+	line_size = check_static(fd, &lst);
+	line = create_line(&lst, line_size);
 	ft_lstclear(&ret, free);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 09:31:00 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/10/24 09:31:00 by dapaulin         ###   ########.fr       */
+/*   Updated: 2022/10/30 04:02:34 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_list	*ft_lstnew(char *content, t_bool end_line)
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	t_list *tail;
+	t_list	*tail;
 
 	if (!lst)
 		return (NULL);
