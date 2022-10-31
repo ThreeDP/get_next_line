@@ -42,3 +42,11 @@ fclean: 	cleann
 	@cd 		$(DIR) && $(MAKE) $@
 
 re: fclean all
+
+fill:	$(HEADERS)
+	gcc		fill_list_test_1.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
+	gcc		fill_list_test_42.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
