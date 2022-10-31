@@ -22,16 +22,10 @@
 #  define BUFFER_SIZE 100
 # endif
 
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-}		t_bool;
-
 typedef struct a_list
 {
 	char			*content;
-//	t_bool			end_line;
+	size_t			buf_read;
 	struct a_list	*next;
 }	t_list;
 
@@ -42,7 +36,7 @@ size_t		ft_strlcpy(char *dest, const char *src, size_t size);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 char		*ft_strdup(const char *s, size_t size);
 // List Manipulation
-t_list		*ft_lstnew(char *content);
+t_list		*ft_lstnew(char *content, size_t buf_read);
 t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstclear(t_list **lst, void (*del)(void *));

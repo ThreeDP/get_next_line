@@ -19,7 +19,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_5_content
 	int			fd						= open("./files/fill_list_nl", O_RDONLY);
 	int			i 						= 0;
 	size_t		result_line_size;
-	t_list		*result_lst 			= ft_lstnew(NULL);
+	t_list		*result_lst 			= ft_lstnew(NULL, 0);
 	t_list		*reset					= result_lst;
 	static char	r_buffer[BUFFER_SIZE];
 	size_t		expected_line_size 		= 5;
@@ -41,7 +41,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_5_content
 	expected[2] = expected3;
 	expected[3] = expected4;
 	expected[4] = expected5;
-	read(fd, r_buffer, BUFFER_SIZE);
+	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
 	result_line_size = fill_list(fd, r_buffer, &result_lst);
 
 	//ASSERT
@@ -64,11 +64,11 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in
 	int			fd						= open("./files/71_no_nl", O_RDONLY);
 	int			i 						= 0;
 	size_t		result_line_size;
-	t_list		*result_lst 			= ft_lstnew(NULL);
+	t_list		*result_lst 			= ft_lstnew(NULL, 0);
 	t_list		*reset					= result_lst;
 	static char	r_buffer[BUFFER_SIZE];
 	size_t		expected_line_size 		= 71;
-	char		*expected1	 			= "Para olhos tortos, a realidade pode ter um rosto desvirtuado - Gandalf.";
+	char		expected1[]	 			= "Para olhos tortos, a realidade pode ter um rosto desvirtuado - Gandalf.";
 	char		**expected = (char **) calloc(1 + 1, sizeof(char *));
 	char		expected_buffer[] 		= ".";
 
@@ -78,11 +78,12 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in
 	if (!expected)
 		return ;
 	expected[0] = expected1;
-	read(fd, r_buffer, BUFFER_SIZE);
+	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
 	result_line_size = fill_list(fd, r_buffer, &result_lst);
 
 	//ASSERT
 	result_lst = reset;
+	printf("\n%s\n", expected[0]);
 	mu_assert_int_eq(expected_line_size, result_line_size);
 	while (result_lst)
 	{
@@ -97,8 +98,8 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in
 
 MU_TEST_SUITE(test_suite)
 {	
-	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list);
 	MU_RUN_TEST(passing_the_file_fill_list_nl_should_be_size_line_5_with_5_content_in_the_list);
+	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list);
 }
 
 int main() {

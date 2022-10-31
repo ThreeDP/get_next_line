@@ -6,7 +6,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content
 	//ARRANGE
 	int			fd						= open("./files/fill_list_nl", O_RDONLY);
 	size_t		result_line_size;
-	t_list		*result_lst 			= ft_lstnew(NULL);
+	t_list		*result_lst 			= ft_lstnew(NULL, 0);
 	t_list		*reset					= result_lst;
 	static char	r_buffer[BUFFER_SIZE];
 	size_t		expected_line_size 		= 5;
@@ -16,7 +16,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content
 	//ACT
 	if (fd == -1)
 		return ;
-	read(fd, r_buffer, BUFFER_SIZE);
+	result_lst.buf_read = read(fd, r_buffer, BUFFER_SIZE);
 	result_line_size = fill_list(fd, r_buffer, &result_lst);
 
 	//ASSERT

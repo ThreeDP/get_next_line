@@ -96,7 +96,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	char	*c_pos;
 
 	line_size = 0;
-	while (line_size < 20)
+	while (1)
 	{
 		c_pos = ft_strchr(buf, '\n');
 		if (c_pos)
@@ -105,12 +105,19 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 			line_size += (c_pos - buf) + 1;
 			break ;
 		}
+		printf("\n%zu\t%s", line_size, buf);
+		if ((*lst) -> buf_read < BUFFER_SIZE)
+			break ;
 		buf_z = ft_strlen(buf);
 		(*lst)-> content = ft_strdup(buf, buf_z);
+//		printf("\n%zu\t%s", line_size, (*lst)-> content);
 		line_size += buf_z;
-		ft_lstadd_back(lst, ft_lstnew(NULL));
+//		if ((*lst) -> buf_read < BUFFER_SIZE)
+//			break ;
+		ft_lstadd_back(lst, ft_lstnew(NULL, 0));
 		(*lst) = (*lst)-> next;
-		read(fd, buf, BUFFER_SIZE);
+		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
+//		printf("\n%zu\t%s\t%s", (*lst)-> buf_read, buf, (*lst)-> content);
 	}
 	return (line_size);
 }
@@ -123,10 +130,13 @@ size_t	check_static(int fd, t_list **lst)
 	
 	c_pos = ft_strchr(buf, '\n');
 	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
+	{
+		(*lst)-> buf_read = BUFFER_SIZE;
 		line_size = fill_list(fd, &buf[c_pos - buf + 1], lst);
+	}
 	else
 	{
-		read(fd, buf, BUFFER_SIZE);
+		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
 		line_size = fill_list(fd, buf, lst);
 	}
 	return (line_size);
@@ -140,7 +150,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
-	lst = ft_lstnew(NULL);
+	lst = ft_lstnew(NULL, 0);
 	if (!lst)
 		return (NULL);
 	line_size = check_static(fd, &lst);
