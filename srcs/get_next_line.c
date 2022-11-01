@@ -111,7 +111,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		}
 		else
 			line_size += (*lst)-> buf_read;
-		(*lst)-> content = ft_strdup(buf, buf_z);
+		(*lst)-> content = ft_strdup(buf, (*lst)-> buf_read);
 		ft_lstadd_back(lst, ft_lstnew(NULL, 0));
 		(*lst) = (*lst)-> next;
 		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
