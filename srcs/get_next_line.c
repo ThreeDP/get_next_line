@@ -112,7 +112,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		else if (c_pos && find_c == '\0')
 		{
 			list-> content = ft_strdup(buf, list-> buf_read);
-			printf("\nZERO\t%s\t%zu", buf, line_size += list-> buf_read);
+			printf("\nZERO\t%s\t%zu\t%zu", buf, line_size += list-> buf_read, list-> buf_read);
 			return (line_size);
 		}
 		line_size += list-> buf_read;
