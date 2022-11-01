@@ -104,7 +104,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		c_pos = ft_strchr(buf, find_c);
 		if (c_pos)
 		{
-			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 1);
+			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 2);
 			line_size += (c_pos - buf) + 1;
 			break ;
 		}
