@@ -121,6 +121,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
 		list = list-> next;
 		list-> buf_read = read(fd, buf, BUFFER_SIZE);
+		buf[list-> buf_read] = '\0';
 		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
 			find_c = '\0';
 	}
