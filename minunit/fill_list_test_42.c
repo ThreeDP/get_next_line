@@ -16,7 +16,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content
 	//ACT
 	if (fd == -1)
 		return ;
-	result_lst.buf_read = read(fd, r_buffer, BUFFER_SIZE);
+	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
 	result_line_size = fill_list(fd, r_buffer, &result_lst);
 
 	//ASSERT

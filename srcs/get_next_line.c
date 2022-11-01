@@ -107,13 +107,13 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		}
 		printf("\n%zu\t%s", line_size, buf);
 		if ((*lst) -> buf_read < BUFFER_SIZE)
+		{
+			(*lst)-> content = ft_strdup("", 1);
 			break ;
+		}
 		buf_z = ft_strlen(buf);
 		(*lst)-> content = ft_strdup(buf, buf_z);
-//		printf("\n%zu\t%s", line_size, (*lst)-> content);
 		line_size += buf_z;
-//		if ((*lst) -> buf_read < BUFFER_SIZE)
-//			break ;
 		ft_lstadd_back(lst, ft_lstnew(NULL, 0));
 		(*lst) = (*lst)-> next;
 		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
