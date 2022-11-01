@@ -63,7 +63,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_i
 	//ARRANGE
 	int		fd				= open("./files/71_no_nl", O_RDONLY);
 	int		i 				= 0;
-	char		*string				= (char *) calloc(2, sizeof(char));
+	char		*string				= (char *) calloc(BUFFER_SIZE + 1, sizeof(char));
 	size_t		result_line_size;
 	t_list		*result_lst 			= ft_lstnew(NULL, 0);
 	t_list		*reset					= result_lst;
@@ -83,8 +83,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_i
 	mu_assert_int_eq(expected_line_size, result_line_size);
 	while (result_lst)
 	{
-		ft_strlcpy(string, &expected[i++], 2);
-		printf("\n%s\n", string);
+		ft_strlcpy(string, &expected[i++], BUFFER_SIZE + 1);
 		mu_assert_string_eq(string, result_lst -> content);
 		result_lst = result_lst -> next;
 	}
