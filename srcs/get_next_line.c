@@ -105,7 +105,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		if (c_pos)
 		{
 			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 1);
-			line_size += (c_pos - buf);
+			line_size += (c_pos - buf) + 1;
 			break ;
 		}
 		printf("%s", buf);
@@ -117,8 +117,6 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
 		if ((*lst) -> buf_read < BUFFER_SIZE)
 		{
-			if (!(*lst)->buf_read)
-				break ;
 			printf("%s", buf);
 			find_c = '\0';
 		}
