@@ -106,7 +106,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 			line_size += (c_pos - buf) + 1;
 			break ;
 		}
-		printf("%s", line_size, buf);
+		printf("%s", buf);
 		buf_z = ft_strlen(buf);
 		line_size += buf_z;
 		(*lst)-> content = ft_strdup(buf, buf_z);
