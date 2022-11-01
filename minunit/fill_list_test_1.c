@@ -84,8 +84,6 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_i
 	while (result_lst && *string != '\0')
 	{
 		ft_strlcpy(string, &expected[i++], 2);
-		if (!string)
-			string = NULL;
 		mu_assert_string_eq(string, result_lst -> content);
 		result_lst = result_lst -> next;
 	}
