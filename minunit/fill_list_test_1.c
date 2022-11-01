@@ -58,7 +58,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_5_content
 	close(fd);
 }
 
-MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list)
+MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_in_the_list)
 {
 	//ARRANGE
 	int		fd				= open("./files/71_no_nl", O_RDONLY);
@@ -97,7 +97,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in
 MU_TEST_SUITE(test_suite)
 {	
 	MU_RUN_TEST(passing_the_file_fill_list_nl_should_be_size_line_5_with_5_content_in_the_list);
-	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list);
+	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_in_the_list);
 }
 
 int main() {
