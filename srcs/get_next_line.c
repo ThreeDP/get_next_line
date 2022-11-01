@@ -96,6 +96,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	char	*c_pos;
 
 	line_size = 0;
+	printf("\n'");
 	while (1)
 	{
 		c_pos = ft_strchr(buf, '\n');
@@ -105,7 +106,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 			line_size += (c_pos - buf) + 1;
 			break ;
 		}
-		printf("\n%zu\t%s", line_size, buf);
+		printf("%s", line_size, buf);
 		buf_z = ft_strlen(buf);
 		line_size += buf_z;
 		(*lst)-> content = ft_strdup(buf, buf_z);
@@ -115,6 +116,8 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		if ((*lst) -> buf_read < BUFFER_SIZE)
 			break ;
 	}
+	printf("'\n");
+	printf("%zu\n", line_size);
 	return (line_size);
 }
 
