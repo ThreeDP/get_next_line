@@ -107,7 +107,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		{
 			list-> content = ft_strdup(buf, (c_pos - buf) + 1);
 			printf("\nNL\t%s\t%zu\t%zu", buf, line_size += list-> buf_read, list-> buf_read);
-			return (line_size += (c_pos - buf) + 1);
+			return (line_size += (c_pos - buf));
 		}
 		else if (c_pos && find_c == '\0')
 		{
