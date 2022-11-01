@@ -94,8 +94,10 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	size_t	line_size;
 	char	*c_pos;
 	char	find_c;
+	t_list	*list;
 
 	line_size = 0;
+	list = *lst;
 	printf("\n'");
 	find_c = '\n';
 	while (1)
@@ -103,23 +105,23 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		c_pos = ft_strchr(buf, find_c);
 		if (c_pos && find_c == '\n')
 		{
-			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 1);
+			list-> content = ft_strdup(buf, (c_pos - buf) + 1);
 			printf("\n%s\t%zu", buf, line_size);
 			return (line_size += (c_pos - buf) + 1);
 		}
 		else if (c_pos && find_c == '\0')
 		{
-			(*lst)-> content = ft_strdup(buf, (*lst)-> buf_read + 1);
-			printf("\nZERO\t%s\t%zu", buf, line_size += (*lst)-> buf_read);
+			list-> content = ft_strdup(buf, list-> buf_read + 1);
+			printf("\nZERO\t%s\t%zu", buf, line_size += list-> buf_read);
 			return (line_size);
 		}
-		line_size += (*lst)-> buf_read;
+		line_size += list-> buf_read;
 		printf("\n%s\t%zu", buf, line_size);
-		(*lst)-> content = ft_strdup(buf, (*lst)-> buf_read);
-		ft_lstadd_back(lst, ft_lstnew(NULL, 0));
-		(*lst) = (*lst)-> next;
-		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
-		if ((*lst) -> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
+		list-> content = ft_strdup(buf, list-> buf_read);
+		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
+		list = list-> next;
+		list-> buf_read = read(fd, buf, BUFFER_SIZE);
+		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
 			find_c = '\0';
 	}
 	printf("'\n");
