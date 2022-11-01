@@ -92,7 +92,6 @@ end of the file			*/
 size_t	fill_list(int fd, char *buf, t_list **lst)
 {
 	size_t	line_size;
-	size_t	buf_z;
 	char	*c_pos;
 	char	find_c;
 
