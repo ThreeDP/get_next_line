@@ -14,6 +14,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content
 	char		expected_buffer[] 		= "One!\nRing to rule them all\n";
 
 	//ACT
+	printf("\nbuffer\t%s\n", r_buffer);
 	if (fd == -1)
 		return ;
 	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
@@ -43,6 +44,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in
 	char		expected_buffer[] 		= " rosto desvirtuado - Gandalf.";
 
 	//ACT
+	printf("\nbuffer\t%s\n", r_buffer);
 	if (fd == -1)
 		return ;
 	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
