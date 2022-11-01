@@ -56,7 +56,8 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in
 	mu_assert_int_eq(expected_line_size, result_line_size);
 	while (result_lst)
 	{
-		ft_strlcpy(string, &expected[i+=BUFFER_SIZE], BUFFER_SIZE + 1);
+		ft_strlcpy(string, &expected[i], BUFFER_SIZE + 1);
+		i += BUFFER_SIZE;
 		if (!string)
 			string = NULL;
 		mu_assert_string_eq(string, result_lst -> content);
