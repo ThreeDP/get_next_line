@@ -116,7 +116,12 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		(*lst) = (*lst)-> next;
 		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
 		if ((*lst) -> buf_read < BUFFER_SIZE)
+		{
+			if (!(*lst)->buf_read)
+				break ;
+			printf("%s", buf);
 			find_c = '\0';
+		}
 	}
 	printf("'\n");
 	printf("%zu\n", line_size);
