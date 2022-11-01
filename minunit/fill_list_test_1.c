@@ -70,7 +70,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_71_content_i
 	static char	r_buffer[BUFFER_SIZE];
 	size_t		expected_line_size 		= 71;
 	const char	*expected	 		= "Para olhos tortos, a realidade pode ter um rosto desvirtuado - Gandalf.";
-	char		expected_buffer[] 		= ".";
+	char		expected_buffer[] 		= "\0";
 
 	//ACT
 	if (fd == -1)
