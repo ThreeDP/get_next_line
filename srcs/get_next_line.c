@@ -101,7 +101,7 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	find_c = '\n';
 	while (1)
 	{
-		printf("%s", buf);
+		printf("\n%s", buf);
 		c_pos = ft_strchr(buf, find_c);
 		if (c_pos)
 		{
