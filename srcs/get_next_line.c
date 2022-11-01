@@ -109,8 +109,8 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 			line_size += (c_pos - buf) + 1;
 			break ;
 		}
-		buf_z = ft_strlen(buf);
-		line_size += buf_z;
+		else
+			line_size += (*lst)-> buf_read;
 		(*lst)-> content = ft_strdup(buf, buf_z);
 		ft_lstadd_back(lst, ft_lstnew(NULL, 0));
 		(*lst) = (*lst)-> next;
@@ -132,7 +132,7 @@ size_t	check_static(int fd, t_list **lst)
 	c_pos = ft_strchr(buf, '\n');
 	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
 	{
-		(*lst)-> buf_read = BUFFER_SIZE;
+		(*lst)-> buf_read = c_pos - buf;
 		line_size = fill_list(fd, &buf[c_pos - buf + 1], lst);
 	}
 	else
