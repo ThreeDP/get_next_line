@@ -47,7 +47,6 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in
 		return ;
 	result_lst -> buf_read = read(fd, r_buffer, BUFFER_SIZE);
 	result_line_size = fill_list(fd, r_buffer, &result_lst);
-	printf("\npos lst ---->\t%zu\n", result_lst-> buf_read);
 
 	//ASSERT
 	result_lst = reset;
