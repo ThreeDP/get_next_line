@@ -28,7 +28,7 @@ MU_TEST_SUITE(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content
 	close(fd);
 }
 
-MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in_the_list)
+MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list)
 {
 	//ARRANGE
 	int			fd						= open("./files/71_no_nl", O_RDONLY);
@@ -40,7 +40,7 @@ MU_TEST_SUITE(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in
 	static char	r_buffer[BUFFER_SIZE];
 	size_t		expected_line_size 		= 71;
 	const char	*expected	 			= "Para olhos tortos, a realidade pode ter um rosto desvirtuado - Gandalf.";
-	char		expected_buffer[] 		= " rosto desvirtuado - Gandalf.";
+	char		expected_buffer[] 		= "Para olhos tortos, a realidade pode ter um rosto desvirtuado - Gandalf.";
 
 	//ACT
 	if (fd == -1)
@@ -88,11 +88,10 @@ MU_TEST_SUITE(passing_the_file_empty_should_be_size_line_NULL_with_NULL_content_
 	close(fd);
 }
 
-
 MU_TEST_SUITE(test_suite)
 {	
 	MU_RUN_TEST(passing_the_file_fill_list_nl_should_be_size_line_5_with_1_content_in_the_list);
-	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_2_content_in_the_list);
+	MU_RUN_TEST(passing_the_file_71_no_nl_should_be_size_line_71_with_1_content_in_the_list);
 	MU_RUN_TEST(passing_the_file_empty_should_be_size_line_NULL_with_NULL_content_in_the_list);
 }
 

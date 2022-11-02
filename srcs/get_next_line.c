@@ -73,14 +73,16 @@ and return the line.						*/
 char	*create_line(t_list **lst, size_t line_size)
 {
 	char	*line;
+	t_list	*list;
 	
+	list  = *lst;
 	line = (char *) calloc(line_size + 1, sizeof(char));
 	if (!line)
 		return (NULL);
-	while ((*lst))
+	while (list)
 	{
-		ft_strlcat(line, (*lst)-> content, line_size + 1);
-		(*lst) = (*lst)-> next;
+		ft_strlcat(line, list-> content, line_size + 1);
+		list = list-> next;
 	}
 	return (line);
 }
@@ -95,32 +97,34 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	char	*c_pos;
 	char	find_c;
 	t_list	*list;
+	size_t	last_size;
 
 	list = *lst;
 	line_size = 0;
+	last_size = 0;
 	find_c = '\n';
+	if (!list-> buf_read)
+		return (0);
 	while (1)
 	{
+		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
+			find_c = '\0';
 		c_pos = ft_strchr(buf, find_c);
-		if (c_pos && find_c == '\n')
+		if (c_pos && (find_c == '\n' || find_c == '\0'))
 		{
 			buf[list-> buf_read] = '\0';
-			list-> content = ft_strdup(buf, (c_pos - buf) + 1);
-			return (line_size += (c_pos - buf) + 1);
-		}
-		else if (c_pos && find_c == '\0')
-		{
-			buf[list-> buf_read] = '\0';
-			list-> content = ft_strdup(buf, list-> buf_read);
-			return (line_size += list-> buf_read);
+			if (find_c == '\n')
+				last_size = (c_pos - buf) + 1;
+			else if (find_c == '\0')
+				last_size = list-> buf_read;
+			list-> content = ft_strdup(buf, last_size);
+			return (line_size += last_size);
 		}
 		line_size += list-> buf_read;
 		list-> content = ft_strdup(buf, list-> buf_read);
 		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
 		list = list-> next;
 		list-> buf_read = read(fd, buf, BUFFER_SIZE);
-		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
-			find_c = '\0';
 	}
 	return (0);
 }
@@ -129,18 +133,20 @@ size_t	check_static(int fd, t_list **lst)
 {
 	char		*c_pos;
 	size_t		line_size;
+	t_list		*list;
 	static char	buf[BUFFER_SIZE];
 	
+	list = *lst;
 	c_pos = ft_strchr(buf, '\n');
 	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
 	{
-		(*lst)-> buf_read = c_pos - buf;
-		line_size = fill_list(fd, &buf[c_pos - buf + 1], lst);
+		list-> buf_read = c_pos - buf;
+		line_size = fill_list(fd, &buf[c_pos - buf + 1], &list);
 	}
 	else
 	{
-		(*lst)-> buf_read = read(fd, buf, BUFFER_SIZE);
-		line_size = fill_list(fd, buf, lst);
+		list-> buf_read = read(fd, buf, BUFFER_SIZE);
+		line_size = fill_list(fd, buf, &list);
 	}
 	return (line_size);
 }
@@ -151,13 +157,15 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		line_size;
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
 	lst = ft_lstnew(NULL, 0);
 	if (!lst)
 		return (NULL);
 	line_size = check_static(fd, &lst);
-	line = create_line(&lst, line_size);
+	if (line_size)
+		line = create_line(&lst, line_size);
 	ft_lstclear(&lst, free);
 	return (line);
 }

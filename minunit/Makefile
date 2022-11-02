@@ -50,3 +50,6 @@ fill:	$(HEADERS)
 	gcc		fill_list_test_42.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
 	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
 	@./a.out
+	gcc		fill_list_test_1_milion.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=100000000
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
