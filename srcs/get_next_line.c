@@ -106,14 +106,14 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 		if (c_pos && find_c == '\n')
 		{
 			list-> content = ft_strdup(buf, (c_pos - buf) + 1);
-			printf("\nNL\t%s\t%zu\t%zu", buf, line_size += list-> buf_read, list-> buf_read);
-			return (line_size += (c_pos - buf));
+			printf("\n%s\t%zu", list-> content, line_size + (c_pos - buf) + 1);
+			return (line_size += (c_pos - buf) + 1);
 		}
 		else if (c_pos && find_c == '\0')
 		{
 			list-> content = ft_strdup(buf, list-> buf_read);
-			printf("\nZERO\t%s\t%zu\t%zu", buf, line_size += list-> buf_read, list-> buf_read);
-			return (line_size);
+			printf("\n%s\t%zu", list-> content, line_size + list-> buf_read);
+			return (line_size += list-> buf_read);
 		}
 		line_size += list-> buf_read;
 		list-> content = ft_strdup(buf, list-> buf_read);
