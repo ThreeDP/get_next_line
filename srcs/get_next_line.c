@@ -129,26 +129,27 @@ size_t	fill_list(int fd, char *buf, t_list **lst)
 	return (0);
 }
 
-size_t	check_static(int fd, t_list **lst)
+/* 
+check if the buffer is empty and set the buf_read	*/
+void	check_static(int fd, char *buffer, t_list **lst)
 {
-	char		*c_pos;
-	size_t		line_size;
-	t_list		*list;
-	static char	buf[BUFFER_SIZE];
-	
+	t_list 	*list;
+	char	*c_pos;
+	char	tmp[BUFFER_SIZE];
+
 	list = *lst;
-	c_pos = ft_strchr(buf, '\n');
-	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
+	if (!*buffer)
 	{
-		list-> buf_read = c_pos - buf;
-		line_size = fill_list(fd, &buf[c_pos - buf + 1], &list);
+		list-> buf_read = read(fd, buffer, BUFFER_SIZE);
+		return ;
 	}
-	else
+	c_pos = ft_strchr(buffer, '\n');
+	if (c_pos)
 	{
-		list-> buf_read = read(fd, buf, BUFFER_SIZE);
-		line_size = fill_list(fd, buf, &list);
+		ft_strlcpy(tmp, &buffer[(c_pos - buffer) + 1], BUFFER_SIZE);
+		ft_strlcpy(buffer, tmp, BUFFER_SIZE);
+		list-> buf_read = ft_strlen(buffer);
 	}
-	return (line_size);
 }
 
 char	*get_next_line(int fd)
@@ -156,6 +157,8 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 	char		*line;
 	size_t		line_size;
+	static char	buf[BUFFER_SIZE];
+
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
@@ -163,7 +166,8 @@ char	*get_next_line(int fd)
 	lst = ft_lstnew(NULL, 0);
 	if (!lst)
 		return (NULL);
-	line_size = check_static(fd, &lst);
+	check_static(fd, buf, &lst);
+	line_size = fill_list(fd, buf, &lst);
 	if (line_size)
 		line = create_line(&lst, line_size);
 	ft_lstclear(&lst, free);

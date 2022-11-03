@@ -53,3 +53,14 @@ fill:	$(HEADERS)
 	gcc		fill_list_test_1_milion.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=100000000
 	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
 	@./a.out
+
+check:	$(HEADERS)
+	gcc		check_static_test_1.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
+	gcc		check_static_test_42.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
+	gcc		check_static_test_1_milion.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=100000000
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out

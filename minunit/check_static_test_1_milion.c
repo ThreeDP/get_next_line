@@ -7,8 +7,8 @@ MU_TEST_SUITE(test)
 	int			fd						= open("./files/fill_list_nl", O_RDONLY);
 	t_list		*result_lst 			= ft_lstnew(NULL, 0);
 	static char	r_buffer[BUFFER_SIZE];
-    char        *expected_buffer        = "O";
-    size_t      expected_buf_read_size  = BUFFER_SIZE;
+    char        *expected_buffer        = "One!\nRing to rule them all\n";
+    size_t      expected_buf_read_size  = 27;
 
 	//ACT
 	if (fd == -1)

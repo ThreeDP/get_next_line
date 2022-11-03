@@ -43,6 +43,6 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 // GNL Actions
 char		*get_next_line(int fd);
 size_t		fill_list(int fd, char *buf, t_list **lst);
-size_t		check_static(int fd, t_list **lst);
+void		check_static(int fd, char *buffer, t_list **lst);
 char		*create_line(t_list **lst, size_t line_size);
 #endif
