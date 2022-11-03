@@ -138,6 +138,11 @@ void	check_static(int fd, char *buffer, t_list **lst)
 	char	tmp[BUFFER_SIZE];
 
 	list = *lst;
+	if (*buffer == '\n')
+	{
+		ft_strlcpy(tmp, buffer + 1, BUFFER_SIZE);
+		ft_strlcpy(buffer, tmp, BUFFER_SIZE);
+	}
 	if (!*buffer)
 	{
 		list-> buf_read = read(fd, buffer, BUFFER_SIZE);
@@ -146,8 +151,8 @@ void	check_static(int fd, char *buffer, t_list **lst)
 	c_pos = ft_strchr(buffer, '\n');
 	if (c_pos)
 	{
-		ft_strlcpy(tmp, &buffer[(c_pos - buffer) + 1], BUFFER_SIZE);
-		ft_strlcpy(buffer, tmp, BUFFER_SIZE);
+		ft_strlcpy(tmp, &buffer[(c_pos - buffer)], (c_pos - buffer));
+		ft_strlcpy(buffer, tmp, ft_strlen(tmp));
 		list-> buf_read = ft_strlen(buffer);
 	}
 }
@@ -158,7 +163,6 @@ char	*get_next_line(int fd)
 	char		*line;
 	size_t		line_size;
 	static char	buf[BUFFER_SIZE];
-
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
