@@ -38,8 +38,8 @@ MU_TEST_SUITE(test)
     check_static(fd, r_buffer, &result_lst);
 
 	//ASSERT
+	mu_assert_string_eq(expected_buffer, r_buffer);
     mu_assert_int_eq(expected_buf_read_size, result_lst-> buf_read);
-    mu_assert_string_eq(expected_buffer, r_buffer);
 	ft_lstclear(&result_lst, free);
 	close(fd);
 }
