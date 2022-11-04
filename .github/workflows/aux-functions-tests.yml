@@ -8,5 +8,7 @@ jobs:
         working-directory: minunit
     steps:
     - uses: actions/checkout@v2
-    - name: make
+    - name: fill-list-tests
       run: make fill
+    - name: check-static-tests
+      run: make check
