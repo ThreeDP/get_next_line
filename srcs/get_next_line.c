@@ -60,7 +60,7 @@ char	*ft_strdup(const char *s, size_t size)
 {
 	char	*ptr;
 
-	ptr = (char *) malloc(size * sizeof(char) + 1);
+	ptr = (char *) calloc(size + 1, sizeof(char));
 	if (!ptr)
 		return (NULL);
 	ft_strlcpy(ptr, s, size + 1);
@@ -73,14 +73,16 @@ and return the line.						*/
 char	*create_line(t_list **lst, size_t line_size)
 {
 	char	*line;
+	t_list	*list;
 	
+	list  = *lst;
 	line = (char *) calloc(line_size + 1, sizeof(char));
 	if (!line)
 		return (NULL);
-	while ((*lst))
+	while (list)
 	{
-		ft_strlcat(line, (*lst)-> content, line_size + 1);
-		(*lst) = (*lst)-> next;
+		ft_strlcat(line, list-> content, line_size + 1);
+		list = list-> next;
 	}
 	return (line);
 }
@@ -92,44 +94,67 @@ end of the file			*/
 size_t	fill_list(int fd, char *buf, t_list **lst)
 {
 	size_t	line_size;
-	size_t	buf_z;
 	char	*c_pos;
+	char	find_c;
+	t_list	*list;
+	size_t	last_size;
 
+	list = *lst;
 	line_size = 0;
-	while (line_size < 20)
+	last_size = 0;
+	find_c = '\n';
+	if (!list-> buf_read)
+		return (0);
+	while (1)
 	{
-		c_pos = ft_strchr(buf, '\n');
-		if (c_pos)
+		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
+			find_c = '\0';
+		c_pos = ft_strchr(buf, find_c);
+		if (c_pos && (find_c == '\n' || find_c == '\0'))
 		{
-			(*lst)-> content = ft_strdup(buf, (c_pos - buf) + 1);
-			line_size += (c_pos - buf) + 1;
-			break ;
+			buf[list-> buf_read] = '\0';
+			if (find_c == '\n')
+				last_size = (c_pos - buf) + 1;
+			else if (find_c == '\0')
+				last_size = list-> buf_read;
+			list-> content = ft_strdup(buf, last_size);
+			return (line_size += last_size);
 		}
-		buf_z = ft_strlen(buf);
-		(*lst)-> content = ft_strdup(buf, buf_z);
-		line_size += buf_z;
-		ft_lstadd_back(lst, ft_lstnew(NULL));
-		(*lst) = (*lst)-> next;
-		read(fd, buf, BUFFER_SIZE);
+		line_size += list-> buf_read;
+		list-> content = ft_strdup(buf, list-> buf_read);
+		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
+		list = list-> next;
+		list-> buf_read = read(fd, buf, BUFFER_SIZE);
 	}
-	return (line_size);
+	return (0);
 }
 
-size_t	check_static(int fd, t_list **lst)
+/* 
+check if the buffer is empty and set the buf_read	*/
+void	check_static(int fd, char *buffer, t_list **lst)
 {
-	char		*c_pos;
-	size_t		line_size;
-	static char	buf[BUFFER_SIZE];
-	
-	c_pos = ft_strchr(buf, '\n');
-	if (c_pos && ((c_pos - buf) < BUFFER_SIZE))
-		line_size = fill_list(fd, &buf[c_pos - buf + 1], lst);
-	else
+	t_list 	*list;
+	char	*c_pos;
+	char	tmp[BUFFER_SIZE];
+
+	list = *lst;
+	if (*buffer == '\n')
 	{
-		read(fd, buf, BUFFER_SIZE);
-		line_size = fill_list(fd, buf, lst);
+		ft_strlcpy(tmp, buffer + 1, BUFFER_SIZE);
+		ft_strlcpy(buffer, tmp, BUFFER_SIZE);
 	}
-	return (line_size);
+	if (!*buffer)
+	{
+		list-> buf_read = read(fd, buffer, BUFFER_SIZE);
+		return ;
+	}
+	c_pos = ft_strchr(buffer, '\n');
+	if (c_pos)
+	{
+		ft_strlcpy(tmp, &buffer[(c_pos - buffer)], (c_pos - buffer));
+		ft_strlcpy(buffer, tmp, ft_strlen(tmp));
+		list-> buf_read = ft_strlen(buffer);
+	}
 }
 
 char	*get_next_line(int fd)
@@ -137,14 +162,18 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 	char		*line;
 	size_t		line_size;
+	static char	buf[BUFFER_SIZE];
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 		return (NULL);
-	lst = ft_lstnew(NULL);
+	lst = ft_lstnew(NULL, 0);
 	if (!lst)
 		return (NULL);
-	line_size = check_static(fd, &lst);
-	line = create_line(&lst, line_size);
+	check_static(fd, buf, &lst);
+	line_size = fill_list(fd, buf, &lst);
+	if (line_size)
+		line = create_line(&lst, line_size);
 	ft_lstclear(&lst, free);
 	return (line);
 }

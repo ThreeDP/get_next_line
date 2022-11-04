@@ -26,7 +26,7 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-t_list	*ft_lstnew(char *content)
+t_list	*ft_lstnew(char *content, size_t buf_read)
 {
 	t_list	*head;
 
@@ -34,6 +34,7 @@ t_list	*ft_lstnew(char *content)
 	if (!head)
 		return (NULL);
 	head -> content = content;
+	head -> buf_read = buf_read;
 	head -> next = NULL;
 	return (head);
 }
