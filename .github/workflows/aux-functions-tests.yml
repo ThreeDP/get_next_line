@@ -1,4 +1,4 @@
-name: fill-list-test
+name: aux-functions-tests
 on: [push]
 jobs:
   cat-one-line:
