@@ -1,0 +1,12 @@
+name: fill-list-test
+on: [push]
+jobs:
+  cat-one-line:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: minunit
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
