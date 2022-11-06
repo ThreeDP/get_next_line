@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 17:47:22 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/11/06 19:33:58 by dapaulin         ###   ########.fr       */
+/*   Created: 2022/11/06 19:22:20 by dapaulin          #+#    #+#             */
+/*   Updated: 2022/11/06 19:36:23 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*get_next_line(int fd)
 	t_list		*ret;
 	char		*line;
 	size_t		bsr;
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[1024][BUFFER_SIZE];
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
@@ -117,14 +117,14 @@ char	*get_next_line(int fd)
 	if (!lst)
 		return (NULL);
 	ret = lst;
-	if (!ft_strlen(buffer))
+	if (!ft_strlen(buffer[fd]))
 	{
-		bsr = read(fd, buffer, BUFFER_SIZE);
-		buffer[bsr] = '\0';
+		bsr = read(fd, buffer[fd], BUFFER_SIZE);
+		buffer[fd][bsr] = '\0';
 	}
 	else
-		bsr = ft_strlen(buffer);
-	bsr = make_pieces(fd, buffer, &lst, bsr);
+		bsr = ft_strlen(buffer[fd]);
+	bsr = make_pieces(fd, buffer[fd], &lst, bsr);
 	if (bsr)
 		line = create_line(&ret, bsr);
 	ft_lstclear(&ret, free);
