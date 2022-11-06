@@ -9,6 +9,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: fill-list-tests
-      run: make fill
-    - name: check-static-tests
-      run: make check
+      run: make pieces

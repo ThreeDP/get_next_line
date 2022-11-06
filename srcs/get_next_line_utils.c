@@ -26,6 +26,17 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
+char	*ft_strdup(const char *s, size_t size)
+{
+	char	*ptr;
+
+	ptr = (char *) calloc(size + 1, sizeof(char));
+	if (!ptr)
+		return (NULL);
+	ft_strlcpy(ptr, s, size + 1);
+	return (ptr);
+}
+
 t_list	*ft_lstnew(char *content, size_t bsr)
 {
 	t_list	*head;

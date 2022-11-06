@@ -39,34 +39,6 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (0);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	len_dst;
-	char	*cached_src;
-
-	i = 0;
-	len_dst = ft_strlen(dst);
-	cached_src = (char *)src;
-	if (size <= len_dst)
-		return (0);
-	while (cached_src[i] && (len_dst + 1) < size)
-		dst[len_dst++] = cached_src[i++];
-	dst[len_dst] = '\0';
-	return (0);
-}
-
-char	*ft_strdup(const char *s, size_t size)
-{
-	char	*ptr;
-
-	ptr = (char *) calloc(size + 1, sizeof(char));
-	if (!ptr)
-		return (NULL);
-	ft_strlcpy(ptr, s, size + 1);
-	return (ptr);
-}
-
 /*
 Copy the structure data to a single array
 and return the line.						*/
@@ -74,14 +46,22 @@ char	*create_line(t_list **lst, size_t line_size)
 {
 	char	*line;
 	t_list	*list;
-	
-	list  = *lst;
+	size_t	i;
+	size_t	len_line;
+
+	list = *lst;
 	line = (char *) calloc(line_size + 1, sizeof(char));
 	if (!line)
 		return (NULL);
 	while (list)
 	{
-		ft_strlcat(line, list-> content, line_size + 1);
+		i = 0;
+		len_line = ft_strlen(line);
+		if ((line_size + 1) <= len_line)
+			break ;
+		while ((list-> content)[i] && (len_line + 1) < (line_size + 1))
+			line[len_line++] = (list-> content)[i++];
+		line[len_line] = '\0';
 		list = list-> next;
 	}
 	return (line);
@@ -106,20 +86,20 @@ size_t	make_pieces(int fd, char *buffer, t_list **lst)
 		c_pos = ft_strchr(buffer, '\n');
 		if (c_pos)
 		{
-			list-> content = ft_strdup(buffer, (c_pos - buffer) + 1);
+			list->content = ft_strdup(buffer, (c_pos - buffer) + 1);
 			ft_strlcpy(tmp, &buffer[(c_pos - buffer) + 1], BUFFER_SIZE);
 			ft_strlcpy(buffer, tmp, ft_strlen(tmp) + 1);
 			return (line_size += (c_pos - buffer) + 1);
 		}
-		line_size += list-> bsr;
-		list-> content = ft_strdup(buffer, list-> bsr);
+		line_size += list->bsr;
+		list->content = ft_strdup(buffer, list->bsr);
 		bsr = read(fd, buffer, BUFFER_SIZE);
 		buffer[bsr] = '\0';
 		if (!bsr)
 			return (line_size);
 		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
-		list = list-> next;
-		list-> bsr = bsr;
+		list = list->next;
+		list->bsr = bsr;
 	}
 	return (0);
 }
