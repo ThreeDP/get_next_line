@@ -65,6 +65,11 @@ check:	$(HEADERS)
 	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
 	@./a.out
 
+pieces:	$(HEADERS)
+	gcc		make_pieces_test.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
+	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+	@./a.out
+
 gdb:
 	gcc -g GDB_test.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
 	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"

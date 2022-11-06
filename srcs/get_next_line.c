@@ -91,70 +91,50 @@ char	*create_line(t_list **lst, size_t line_size)
 Populate and create new nodes with characters from
 the file while not finding a \n character or the
 end of the file			*/
-size_t	fill_list(int fd, char *buf, t_list **lst)
+size_t	make_pieces(int fd, char *buffer, t_list **lst)
 {
 	size_t	line_size;
 	char	*c_pos;
-	char	find_c;
 	t_list	*list;
-	size_t	last_size;
+	size_t	bsr;
+	char	tmp[BUFFER_SIZE];
 
 	list = *lst;
 	line_size = 0;
-	last_size = 0;
-	find_c = '\n';
-	if (!list-> buf_read)
-		return (0);
 	while (1)
 	{
-		if (list-> buf_read < BUFFER_SIZE && !ft_strchr(buf, find_c))
-			find_c = '\0';
-		c_pos = ft_strchr(buf, find_c);
-		if (c_pos && (find_c == '\n' || find_c == '\0'))
+		c_pos = ft_strchr(buffer, '\n');
+		if (c_pos)
 		{
-			buf[list-> buf_read] = '\0';
-			if (find_c == '\n')
-				last_size = (c_pos - buf) + 1;
-			else if (find_c == '\0')
-				last_size = list-> buf_read;
-			list-> content = ft_strdup(buf, last_size);
-			return (line_size += last_size);
+			list-> content = ft_strdup(buffer, (c_pos - buffer) + 1);
+			ft_strlcpy(tmp, &buffer[(c_pos - buffer) + 1], BUFFER_SIZE);
+			ft_strlcpy(buffer, tmp, ft_strlen(tmp) + 1);
+			return (line_size += (c_pos - buffer) + 1);
 		}
-		line_size += list-> buf_read;
-		list-> content = ft_strdup(buf, list-> buf_read);
+		line_size += list-> bsr;
+		list-> content = ft_strdup(buffer, list-> bsr);
+		bsr = read(fd, buffer, BUFFER_SIZE);
+		buffer[bsr] = '\0';
+		if (!bsr)
+			return (line_size);
 		ft_lstadd_back(&list, ft_lstnew(NULL, 0));
 		list = list-> next;
-		list-> buf_read = read(fd, buf, BUFFER_SIZE);
+		list-> bsr = bsr;
 	}
 	return (0);
 }
 
 /* 
-check if the buffer is empty and set the buf_read	*/
+check if the buffer is empty and set the bsr	*/
 void	check_static(int fd, char *buffer, t_list **lst)
 {
-	t_list 	*list;
-	char	*c_pos;
-	char	tmp[BUFFER_SIZE];
-
-	list = *lst;
-	if (*buffer == '\n')
+	if (!ft_strlen(buffer))
 	{
-		ft_strlcpy(tmp, buffer + 1, BUFFER_SIZE);
-		ft_strlcpy(buffer, tmp, BUFFER_SIZE);
+		(*lst)-> bsr = read(fd, buffer, BUFFER_SIZE);
+		buffer[(*lst)-> bsr] = '\0';
 	}
-	if (!*buffer)
-	{
-		list-> buf_read = read(fd, buffer, BUFFER_SIZE);
-		return ;
-	}
-	c_pos = ft_strchr(buffer, '\n');
-	if (c_pos)
-	{
-		ft_strlcpy(tmp, &buffer[(c_pos - buffer)], (c_pos - buffer));
-		ft_strlcpy(buffer, tmp, ft_strlen(tmp));
-		list-> buf_read = ft_strlen(buffer);
-	}
+	else
+		(*lst)-> bsr = ft_strlen(buffer);
 }
 
 char	*get_next_line(int fd)
@@ -171,7 +151,7 @@ char	*get_next_line(int fd)
 	if (!lst)
 		return (NULL);
 	check_static(fd, buf, &lst);
-	line_size = fill_list(fd, buf, &lst);
+	line_size = make_pieces(fd, buf, &lst);
 	if (line_size)
 		line = create_line(&lst, line_size);
 	ft_lstclear(&lst, free);
