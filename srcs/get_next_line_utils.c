@@ -12,6 +12,16 @@
 
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *str)
+{
+	int	size;
+
+	size = 0;
+	while (str[size])
+		size++;
+	return (size);
+}
+
 char	*ft_strchr(const char *str, int c)
 {
 	size_t	i;
@@ -37,35 +47,29 @@ char	*ft_strdup(const char *s, size_t size)
 	return (ptr);
 }
 
-t_list	*ft_lstnew(char *content)
-{
-	t_list	*head;
-
-	head = malloc(sizeof(t_list));
-	if (!head)
-		return (NULL);
-	head -> content = content;
-	head -> next = NULL;
-	return (head);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, int creat_lst)
 {
 	t_list	*tail;
 	t_list	*head;
+	t_list	*new;
 
-	head = *lst;
-	if (!lst || !new)
+	new = malloc(sizeof(t_list));
+	if (!new)
 		return ;
-	while (head)
+	new -> content = NULL;
+	new -> next = NULL;
+	if (!creat_lst)
 	{
-		tail = head;
-		head = head->next;
-	}
-	if (tail == NULL)
-		*lst = new;
-	else
+		head = *lst;
+		while (head)
+		{
+			tail = head;
+			head = head->next;
+		}
 		tail -> next = new;
+	}
+	else
+		*lst = new;
 }
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))

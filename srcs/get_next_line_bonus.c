@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-size_t	ft_strlen(const char *str)
-{
-	int	size;
-
-	size = 0;
-	while (str[size])
-		size++;
-	return (size);
-}
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
@@ -69,37 +59,58 @@ static char	*create_line(t_list **lst, size_t line_size)
 	return (line);
 }
 
+int	valid(int fd, char **buf, t_list **lst)
+{
+	int	byte;
+
+	byte = 0;
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
+		return (0);
+	if (!(*buf))
+	{
+		(*buf) = (char *) malloc(BUFFER_SIZE * sizeof(char) + 1);
+		if (!(*buf))
+			return (0);
+		while (byte < (BUFFER_SIZE + 1))
+			(*buf)[byte++] = 0;
+	}
+	ft_lstadd_back(lst, 1);
+	if (!(*lst))
+		return (free((*buf)), 0);
+	return (1);
+}
+
 /*
 Populate and create new nodes with characters from
 the file while not finding a \n character or the
 end of the file			*/
-static size_t	make_pieces(int fd, char *buffer, t_list **lst, size_t bsr)
+static size_t	make_pieces(int fd, char *buf, t_list **lst, size_t bsr)
 {
 	size_t	line_size;
 	char	*c_pos;
-	char	tmp[BUFFER_SIZE];
+	char	*tmp;
 
 	line_size = 0;
 	while (1)
 	{
-		c_pos = ft_strchr(buffer, '\n');
+		c_pos = ft_strchr(buf, '\n');
 		if (c_pos)
-		{
-			(*lst)->content = ft_strdup(buffer, (c_pos - buffer) + 1);
-			ft_strlcpy(tmp, &buffer[(c_pos - buffer) + 1], BUFFER_SIZE);
-			ft_strlcpy(buffer, tmp, ft_strlen(tmp) + 1);
-			return (line_size += (c_pos - buffer) + 1);
-		}
+			bsr = (c_pos - buf) + 1;
 		line_size += bsr;
-		(*lst)->content = ft_strdup(buffer, bsr);
-		bsr = read(fd, buffer, BUFFER_SIZE);
-		buffer[bsr] = '\0';
+		(*lst)->content = ft_strdup(buf, bsr);
+		if (c_pos)
+			break ;
+		bsr = read(fd, buf, BUFFER_SIZE);
+		buf[bsr] = '\0';
 		if (!bsr)
 			return (line_size);
-		ft_lstadd_back(lst, ft_lstnew(NULL));
+		ft_lstadd_back(lst, 0);
 		(*lst) = (*lst)->next;
 	}
-	return (0);
+	tmp = ft_strdup(&buf[bsr], ft_strlen(&buf[bsr]));
+	ft_strlcpy(buf, tmp, ft_strlen(tmp) + 1);
+	free(tmp);
+	return (line_size += bsr);
 }
 
 char	*get_next_line(int fd)
@@ -108,25 +119,24 @@ char	*get_next_line(int fd)
 	t_list		*ret;
 	char		*line;
 	size_t		bsr;
-	static char	buffer[1024][BUFFER_SIZE];
+	static char	*buf[1024];
 
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
-		return (NULL);
-	lst = ft_lstnew(NULL);
-	if (!lst)
+	if (!valid(fd, &buf[fd], &lst))
 		return (NULL);
 	ret = lst;
-	if (!ft_strlen(buffer[fd]))
-	{
-		bsr = read(fd, buffer[fd], BUFFER_SIZE);
-		buffer[fd][bsr] = '\0';
-	}
-	else
-		bsr = ft_strlen(buffer[fd]);
-	bsr = make_pieces(fd, buffer[fd], &lst, bsr);
+	bsr = ft_strlen(buf[fd]);
+	if (!bsr)
+		bsr = read(fd, buf[fd], BUFFER_SIZE);
+	buf[fd][bsr] = '\0';
+	bsr = make_pieces(fd, buf[fd], &lst, bsr);
 	if (bsr)
 		line = create_line(&ret, bsr);
+	else
+	{
+		free(buf[fd]);
+		buf[fd] = NULL;
+	}
 	ft_lstclear(&ret, free);
 	return (line);
 }

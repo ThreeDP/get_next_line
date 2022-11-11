@@ -36,7 +36,7 @@ size_t		ft_strlcat(char *dst, const char *src, size_t size);
 char		*ft_strdup(const char *s, size_t size);
 // List Manipulation
 t_list		*ft_lstnew(char *content);
-void		ft_lstadd_back(t_list **lst, t_list *new);
+void		ft_lstadd_back(t_list **lst, int creat_lst);
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 // GNL Actions
 char		*get_next_line(int fd);
