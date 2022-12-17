@@ -1,0 +1,15 @@
+name: mandatory part
+on: [push]
+jobs:
+  mandatory-part:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: minunit
+    steps:
+    - uses: actions/checkout@v2
+    - name: clone
+      run: git clone git@github.com:Tripouille/gnlTester.git
+    - name: tripouille tester
+      run: cd gnlTester |
+        make a
