@@ -9,20 +9,36 @@ L_GREEN			=			'\033[0;32m'
 L_GREENB		=			'\033[1;32m'
 ################ CONFIG		##################
 DIR 			= 			../srcs/
-SRCS_TEST 		= 			$(wildcard ./*.c)
-SRCS			=			$(wildcard $(DIR)*.c)
+M_SRCS			=			get_next_line.c get_next_line_utils.c
+B_SRCS			=			get_next_line_bonus.c get_next_line_utils_bonus.c
 HEADERS 		= 			minunit.h
 ################ OTHERs		##################
-BUF			=			1
-F_BUFF			=			-D BUFFER_SIZE=$(BUF)
+F_BUFF			=			-D BUFFER_SIZE=
 FLAGS 			=			-Wall -Werror -Wextra
 ################ RULES		##################
 
-all:		$(SRCS_TEST:.c=.o)
-       
-%.o:	%.c	$(HEADERS)
-	gcc		$< $(SRCS) $(FLAGS) $(F_BUFF)
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
+all:		m b
+
+m:
+	gcc		get_next_line_test.c $(addprefix $(DIR), $(M_SRCS)) $(FLAGS) $(F_BUFF)1
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 1 "$(L_WHITE)"
+	@./a.out
+	gcc		get_next_line_test.c $(addprefix $(DIR), $(M_SRCS)) $(FLAGS) $(F_BUFF)42
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 42 "$(L_WHITE)"
+	@./a.out
+	gcc		get_next_line_test.c $(addprefix $(DIR), $(M_SRCS)) $(FLAGS) $(F_BUFF)1000
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 1000 "$(L_WHITE)"
+	@./a.out
+
+b:
+	gcc		get_next_line_bonus_test.c $(addprefix $(DIR), $(B_SRCS)) $(FLAGS) $(F_BUFF)1
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 1 "$(L_WHITE)"
+	@./a.out
+	gcc		get_next_line_bonus_test.c $(addprefix $(DIR), $(B_SRCS)) $(FLAGS) $(F_BUFF)42
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 42 "$(L_WHITE)"
+	@./a.out
+	gcc		get_next_line_bonus_test.c $(addprefix $(DIR), $(B_SRCS)) $(FLAGS) $(F_BUFF)1000
+	@echo		"$(L_YELLOWB)"RUN TEST BUFFER: 1000 "$(L_WHITE)"
 	@./a.out
 
 norm:
@@ -32,44 +48,11 @@ cleann:
 	@rm 		-f $(SRCS_TEST:.c=.o)
 	@rm		-f $(SRCS:.c=.o)
 	
-
 clean:		cleann
 	@cd 		$(DIR) && $(MAKE) $@
-
 
 fclean: 	cleann
 	@rm 		-f a.out
 	@cd 		$(DIR) && $(MAKE) $@
 
 re: fclean all
-
-fill:	$(HEADERS)
-	gcc		fill_list_test_1.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-	gcc		fill_list_test_42.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-	gcc		fill_list_test_1_milion.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=100000000
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-
-check:	$(HEADERS)
-	gcc		check_static_test_1.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-	gcc		check_static_test_42.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-	gcc		check_static_test_1_milion.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=100000000
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-
-pieces:	$(HEADERS)
-	gcc		make_pieces_test.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=42
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
-	@./a.out
-
-gdb:
-	gcc -g GDB_test.c $(SRCS) $(FLAGS) -D BUFFER_SIZE=1
-	@echo		"$(L_YELLOWB)"RUN TEST: $< "$(L_WHITE)"
