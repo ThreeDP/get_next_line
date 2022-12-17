@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: srcs/gnlTester/
+        working-directory: ./srcs/gnlTester/
     steps:
     - uses: actions/checkout@v2
     - name: tripouille tester
