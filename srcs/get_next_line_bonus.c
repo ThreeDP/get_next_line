@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 17:47:22 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/11/06 19:33:58 by dapaulin         ###   ########.fr       */
+/*   Created: 2022/11/06 19:22:20 by dapaulin          #+#    #+#             */
+/*   Updated: 2022/11/06 19:36:23 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	get_strlcpy(char *dest, const char *src, size_t size)
 {
@@ -119,23 +119,23 @@ char	*get_next_line(int fd)
 	t_list		*ret;
 	char		*line;
 	size_t		bsr;
-	static char	*buf;
+	static char	*buf[1024];
 
 	line = NULL;
-	if (!valid(fd, &buf, &lst))
+	if (!valid(fd, &buf[fd], &lst))
 		return (NULL);
 	ret = lst;
-	bsr = get_strlen(buf);
+	bsr = get_strlen(buf[fd]);
 	if (!bsr)
-		bsr = read(fd, buf, BUFFER_SIZE);
-	buf[bsr] = '\0';
-	bsr = make_pieces(fd, buf, &lst, bsr);
+		bsr = read(fd, buf[fd], BUFFER_SIZE);
+	buf[fd][bsr] = '\0';
+	bsr = make_pieces(fd, buf[fd], &lst, bsr);
 	if (bsr)
 		line = create_line(&ret, bsr);
 	else
 	{
-		free(buf);
-		buf = NULL;
+		free(buf[fd]);
+		buf[fd] = NULL;
 	}
 	get_lstclear(&ret, free);
 	return (line);
