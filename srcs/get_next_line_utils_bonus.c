@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *str)
+size_t	get_strlen(const char *str)
 {
 	int	size;
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *str)
 	return (size);
 }
 
-char	*ft_strchr(const char *str, int c)
+char	*get_strchr(const char *str, int c)
 {
 	size_t	i;
 	char	cached_c;
@@ -36,18 +36,18 @@ char	*ft_strchr(const char *str, int c)
 	return (0);
 }
 
-char	*ft_strdup(const char *s, size_t size)
+char	*get_strdup(const char *s, size_t size)
 {
 	char	*ptr;
 
 	ptr = (char *) malloc(size * sizeof(char) + 1);
 	if (!ptr)
 		return (NULL);
-	ft_strlcpy(ptr, s, size + 1);
+	get_strlcpy(ptr, s, size + 1);
 	return (ptr);
 }
 
-void	ft_lstadd_back(t_list **lst, int creat_lst)
+void	get_lstadd_back(t_list **lst, int creat_lst)
 {
 	t_list	*tail;
 	t_list	*head;
@@ -72,7 +72,7 @@ void	ft_lstadd_back(t_list **lst, int creat_lst)
 		*lst = new;
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	get_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*head;
 	t_list	*next;

@@ -29,15 +29,15 @@ typedef struct a_list
 }	t_list;
 
 // String Manipulation
-size_t		ft_strlen(const char *str);
-char		*ft_strchr(const char *src, int c);
-size_t		ft_strlcpy(char *dest, const char *src, size_t size);
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
-char		*ft_strdup(const char *s, size_t size);
+size_t		get_strlen(const char *str);
+char		*get_strchr(const char *src, int c);
+size_t		get_strlcpy(char *dest, const char *src, size_t size);
+size_t		get_strlcat(char *dst, const char *src, size_t size);
+char		*get_strdup(const char *s, size_t size);
 // List Manipulation
-t_list		*ft_lstnew(char *content);
-void		ft_lstadd_back(t_list **lst, int creat_lst);
-void		ft_lstclear(t_list **lst, void (*del)(void *));
+t_list		*get_lstnew(char *content);
+void		get_lstadd_back(t_list **lst, int creat_lst);
+void		get_lstclear(t_list **lst, void (*del)(void *));
 // GNL Actions
 char		*get_next_line(int fd);
 #endif

@@ -15,8 +15,8 @@ MU_TEST_SUITE(test)
     str2 = get_next_line(fd);
 
     //ASSERT
-    mu_assert_int_eq(ft_strlen(expected_str1), ft_strlen(str1));
-    mu_assert_int_eq(ft_strlen(expected_str2), ft_strlen(str2));
+    mu_assert_int_eq(get_strlen(expected_str1), get_strlen(str1));
+    mu_assert_int_eq(get_strlen(expected_str2), get_strlen(str2));
     mu_assert_string_eq(expected_str1, str1);
     mu_assert_string_eq(expected_str2, str2);
     if (str1)

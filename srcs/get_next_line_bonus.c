@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+size_t	get_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	i;
 
@@ -48,7 +48,7 @@ static char	*create_line(t_list **lst, size_t line_size)
 	while (list)
 	{
 		i = 0;
-		len_line = ft_strlen(line);
+		len_line = get_strlen(line);
 		if ((line_size + 1) <= len_line)
 			break ;
 		while ((list-> content)[i] && (len_line + 1) < (line_size + 1))
@@ -74,7 +74,7 @@ int	valid(int fd, char **buf, t_list **lst)
 		while (byte < (BUFFER_SIZE + 1))
 			(*buf)[byte++] = 0;
 	}
-	ft_lstadd_back(lst, 1);
+	get_lstadd_back(lst, 1);
 	if (!(*lst))
 		return (free((*buf)), 0);
 	return (1);
@@ -93,22 +93,22 @@ static size_t	make_pieces(int fd, char *buf, t_list **lst, size_t bsr)
 	line_size = 0;
 	while (1)
 	{
-		c_pos = ft_strchr(buf, '\n');
+		c_pos = get_strchr(buf, '\n');
 		if (c_pos)
 			bsr = (c_pos - buf) + 1;
 		line_size += bsr;
-		(*lst)->content = ft_strdup(buf, bsr);
+		(*lst)->content = get_strdup(buf, bsr);
 		if (c_pos)
 			break ;
 		bsr = read(fd, buf, BUFFER_SIZE);
 		buf[bsr] = '\0';
 		if (!bsr)
 			return (line_size);
-		ft_lstadd_back(lst, 0);
+		get_lstadd_back(lst, 0);
 		(*lst) = (*lst)->next;
 	}
-	tmp = ft_strdup(&buf[bsr], ft_strlen(&buf[bsr]));
-	ft_strlcpy(buf, tmp, ft_strlen(tmp) + 1);
+	tmp = get_strdup(&buf[bsr], get_strlen(&buf[bsr]));
+	get_strlcpy(buf, tmp, get_strlen(tmp) + 1);
 	free(tmp);
 	return (line_size += bsr);
 }
@@ -125,7 +125,7 @@ char	*get_next_line(int fd)
 	if (!valid(fd, &buf[fd], &lst))
 		return (NULL);
 	ret = lst;
-	bsr = ft_strlen(buf[fd]);
+	bsr = get_strlen(buf[fd]);
 	if (!bsr)
 		bsr = read(fd, buf[fd], BUFFER_SIZE);
 	buf[fd][bsr] = '\0';
@@ -137,6 +137,6 @@ char	*get_next_line(int fd)
 		free(buf[fd]);
 		buf[fd] = NULL;
 	}
-	ft_lstclear(&ret, free);
+	get_lstclear(&ret, free);
 	return (line);
 }
