@@ -6,7 +6,6 @@
 [![norminette](https://github.com/ThreeDP/get_next_line/actions/workflows/norminette.yml/badge.svg)](https://github.com/ThreeDP/get_next_line/actions/workflows/norminette.yml)
 [![madatory](https://github.com/ThreeDP/get_next_line/actions/workflows/mandatory.yml/badge.svg)](https://github.com/ThreeDP/get_next_line/actions/workflows/mandatory.yml)
 [![bonus](https://github.com/ThreeDP/get_next_line/actions/workflows/bonus.yml/badge.svg)](https://github.com/ThreeDP/get_next_line/actions/workflows/bonus.yml)
-[![tripouille](https://github.com/ThreeDP/get_next_line/actions/workflows/tripouille.yml/badge.svg)](https://github.com/ThreeDP/get_next_line/actions/workflows/tripouille.yml)
 
 # :sun_with_face: Score
 > A pontuação para que um projeto seja aprovado na [42SP](https://www.linkedin.com/company/42-sao-paulo/) é de no mínimo 100 pontos e em caso onde o catede realize tarefas extras um bonus é acrecentado, com o bonus é possivel atigir pontuações de 101 á 125 pontos. Nesse caso em especifico a pontuação bonus é atingida caso o cadete consiga implementar em seu projeto a possibilidade de interagir com diferços **file descriptors** ao mesmo tempo.

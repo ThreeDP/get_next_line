@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
+      run: git submodule update --init --recursive
     - name: bonus test
       run: bash run.sh b
