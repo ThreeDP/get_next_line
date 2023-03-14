@@ -8,7 +8,23 @@ jobs:
         working-directory: tests
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout submodules
-      run: git submodule update --init --recursive
+    - name: Initialize submodules
+      run: git submodule update --init
+    - name: Update Submodules
+      run: get submodule update --remote
+    - name: Commit Changes
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          git config --global user.name "threedp"
+          git config --global user.email "davypaulinocbjr@outlook.com"
+          git commit -am "Update submodules"
+
+    - name: Push Changes
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: git push
     - name: mandatory test
       run: bash run.sh m
