@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dapaulin <dapaulin@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:47:22 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/11/06 19:33:58 by dapaulin         ###   ########.fr       */
+/*   Updated: 2023/03/13 23:45:33 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	get_strlcpy(char *dest, const char *src, size_t size)
+size_t	g_ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	i;
 
@@ -31,10 +31,10 @@ size_t	get_strlcpy(char *dest, const char *src, size_t size)
 /*
 Copy the structure data to a single array
 and return the line.						*/
-static char	*create_line(t_list **lst, size_t line_size)
+static char	*create_line(t_buffer **lst, size_t line_size)
 {
 	char	*line;
-	t_list	*list;
+	t_buffer	*list;
 	size_t	i;
 	size_t	len_line;
 
@@ -48,7 +48,7 @@ static char	*create_line(t_list **lst, size_t line_size)
 	while (list)
 	{
 		i = 0;
-		len_line = get_strlen(line);
+		len_line = g_ft_strlen(line);
 		if ((line_size + 1) <= len_line)
 			break ;
 		while ((list-> content)[i] && (len_line + 1) < (line_size + 1))
@@ -59,7 +59,7 @@ static char	*create_line(t_list **lst, size_t line_size)
 	return (line);
 }
 
-int	valid(int fd, char **buf, t_list **lst)
+int	valid(int fd, char **buf, t_buffer **lst)
 {
 	int	byte;
 
@@ -74,7 +74,7 @@ int	valid(int fd, char **buf, t_list **lst)
 		while (byte < (BUFFER_SIZE + 1))
 			(*buf)[byte++] = 0;
 	}
-	get_lstadd_back(lst, 1);
+	g_lstadd_back(lst, 1);
 	if (!(*lst))
 		return (free((*buf)), 0);
 	return (1);
@@ -84,7 +84,7 @@ int	valid(int fd, char **buf, t_list **lst)
 Populate and create new nodes with characters from
 the file while not finding a \n character or the
 end of the file			*/
-static size_t	make_pieces(int fd, char *buf, t_list **lst, size_t bsr)
+static size_t	make_pieces(int fd, char *buf, t_buffer **lst, size_t bsr)
 {
 	size_t	line_size;
 	char	*c_pos;
@@ -93,30 +93,30 @@ static size_t	make_pieces(int fd, char *buf, t_list **lst, size_t bsr)
 	line_size = 0;
 	while (1)
 	{
-		c_pos = get_strchr(buf, '\n');
+		c_pos = g_ft_strchr(buf, '\n');
 		if (c_pos)
 			bsr = (c_pos - buf) + 1;
 		line_size += bsr;
-		(*lst)->content = get_strdup(buf, bsr);
+		(*lst)->content = g_ft_strdup(buf, bsr);
 		if (c_pos)
 			break ;
 		bsr = read(fd, buf, BUFFER_SIZE);
 		buf[bsr] = '\0';
 		if (!bsr)
 			return (line_size);
-		get_lstadd_back(lst, 0);
+		g_lstadd_back(lst, 0);
 		(*lst) = (*lst)->next;
 	}
-	tmp = get_strdup(&buf[bsr], get_strlen(&buf[bsr]));
-	get_strlcpy(buf, tmp, get_strlen(tmp) + 1);
+	tmp = g_ft_strdup(&buf[bsr], g_ft_strlen(&buf[bsr]));
+	g_ft_strlcpy(buf, tmp, g_ft_strlen(tmp) + 1);
 	free(tmp);
 	return (line_size += bsr);
 }
 
 char	*get_next_line(int fd)
 {
-	t_list		*lst;
-	t_list		*ret;
+	t_buffer		*lst;
+	t_buffer		*ret;
 	char		*line;
 	size_t		bsr;
 	static char	*buf;
@@ -125,7 +125,7 @@ char	*get_next_line(int fd)
 	if (!valid(fd, &buf, &lst))
 		return (NULL);
 	ret = lst;
-	bsr = get_strlen(buf);
+	bsr = g_ft_strlen(buf);
 	if (!bsr)
 		bsr = read(fd, buf, BUFFER_SIZE);
 	buf[bsr] = '\0';
@@ -137,6 +137,6 @@ char	*get_next_line(int fd)
 		free(buf);
 		buf = NULL;
 	}
-	get_lstclear(&ret, free);
+	g_lstclear(&ret, free);
 	return (line);
 }

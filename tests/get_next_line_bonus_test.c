@@ -1,7 +1,7 @@
-#include "minunit.h"
+#include "minunit-42/minunit.h"
 #include "../srcs/get_next_line.h"
 
-MU_TEST_SUITE(test)
+MU_TEST_SUITE(test_pass_a_file_with_one_line_with_42_char_more_a_new_line_and_other_line_with_one_char)
 {
 	//ARRANGE
     int			fd						= open("./files/43_with_nl", O_RDONLY);
@@ -15,9 +15,9 @@ MU_TEST_SUITE(test)
     str2 = get_next_line(fd);
 
     //ASSERT
-    mu_assert_int_eq(get_strlen(expected_str1), get_strlen(str1));
-    mu_assert_int_eq(get_strlen(expected_str2), get_strlen(str2));
+    mu_assert_int_eq(g_ft_strlen(expected_str1), g_ft_strlen(str1));
     mu_assert_string_eq(expected_str1, str1);
+    mu_assert_int_eq(g_ft_strlen(expected_str2), g_ft_strlen(str2));
     mu_assert_string_eq(expected_str2, str2);
     if (str1)
         free(str1);
@@ -27,7 +27,7 @@ MU_TEST_SUITE(test)
 
 MU_TEST_SUITE(test_suite)
 {	
-    MU_RUN_TEST(test);
+    MU_RUN_TEST(test_pass_a_file_with_one_line_with_42_char_more_a_new_line_and_other_line_with_one_char);
 }
 
 int main() {

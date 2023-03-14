@@ -1,0 +1,3 @@
+[submodule "tests/minunit-42"]
+	path = tests/minunit-42
+	url = git@github.com:TDD-42/minunit-42.git

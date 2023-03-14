@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapaulin <dapaulin@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dapaulin <dapaulin@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 09:31:00 by dapaulin          #+#    #+#             */
-/*   Updated: 2022/11/06 19:17:54 by dapaulin         ###   ########.fr       */
+/*   Updated: 2023/03/13 23:45:36 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	get_strlen(const char *str)
+size_t	g_ft_strlen(const char *str)
 {
 	int	size;
 
@@ -22,7 +22,7 @@ size_t	get_strlen(const char *str)
 	return (size);
 }
 
-char	*get_strchr(const char *str, int c)
+char	*g_ft_strchr(const char *str, int c)
 {
 	size_t	i;
 	char	cached_c;
@@ -36,24 +36,24 @@ char	*get_strchr(const char *str, int c)
 	return (0);
 }
 
-char	*get_strdup(const char *s, size_t size)
+char	*g_ft_strdup(const char *s, size_t size)
 {
 	char	*ptr;
 
 	ptr = (char *) malloc(size * sizeof(char) + 1);
 	if (!ptr)
 		return (NULL);
-	get_strlcpy(ptr, s, size + 1);
+	g_ft_strlcpy(ptr, s, size + 1);
 	return (ptr);
 }
 
-void	get_lstadd_back(t_list **lst, int creat_lst)
+void	g_lstadd_back(t_buffer **lst, int creat_lst)
 {
-	t_list	*tail;
-	t_list	*head;
-	t_list	*new;
+	t_buffer	*tail;
+	t_buffer	*head;
+	t_buffer	*new;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_buffer));
 	if (!new)
 		return ;
 	new -> content = NULL;
@@ -72,10 +72,10 @@ void	get_lstadd_back(t_list **lst, int creat_lst)
 		*lst = new;
 }
 
-void	get_lstclear(t_list **lst, void (*del)(void *))
+void	g_lstclear(t_buffer **lst, void (*del)(void *))
 {
-	t_list	*head;
-	t_list	*next;
+	t_buffer	*head;
+	t_buffer	*next;
 
 	head = *lst;
 	next = *lst;
