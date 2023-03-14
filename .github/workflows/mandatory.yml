@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: minunit
+        working-directory: tests
     steps:
     - uses: actions/checkout@v2
     - name: mandatory test
-      run: make m
+      run: bash run.sh m
