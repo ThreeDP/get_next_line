@@ -6,7 +6,7 @@
 /*   By: dapaulin <dapaulin@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 19:22:20 by dapaulin          #+#    #+#             */
-/*   Updated: 2023/03/14 00:12:12 by dapaulin         ###   ########.fr       */
+/*   Updated: 2023/03/14 03:59:52 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ Copy the structure data to a single array
 and return the line.						*/
 static char	*create_line(t_buffer **lst, size_t line_size)
 {
-	char	*line;
+	char		*line;
 	t_buffer	*list;
-	size_t	i;
-	size_t	len_line;
+	size_t		i;
+	size_t		len_line;
 
 	list = *lst;
 	line = (char *) malloc(line_size * sizeof(char) + 1);
@@ -117,9 +117,9 @@ char	*get_next_line(int fd)
 {
 	t_buffer		*lst;
 	t_buffer		*ret;
-	char		*line;
-	size_t		bsr;
-	static char	*buf[1024];
+	char			*line;
+	size_t			bsr;
+	static char		*buf[1024];
 
 	line = NULL;
 	if (!valid(fd, &buf[fd], &lst))
