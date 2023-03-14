@@ -17,8 +17,8 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          git config --global user.name "threedp"
-          git config --global user.email "davypaulinocbjr@outlook.com"
+          git config --global user.name "ThreeDP"
+          git config --global user.email "davy.paulino@aluno.ifsp.edu.br"
           git commit -am "Update submodules"
 
     - name: Push Changes
