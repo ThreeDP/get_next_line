@@ -1,0 +1,30 @@
+name: mandatory part
+on: [push]
+jobs:
+  mandatory-part:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tests
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initialize submodules
+      run: git submodule update --init
+    - name: Update Submodules
+      run: get submodule update --remote
+    - name: Commit Changes
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          git config --global user.name "ThreeDP"
+          git config --global user.email "davy.paulino@aluno.ifsp.edu.br"
+          git commit -am "Update submodules"
+
+    - name: Push Changes
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: git push
+    - name: mandatory test
+      run: bash run.sh m

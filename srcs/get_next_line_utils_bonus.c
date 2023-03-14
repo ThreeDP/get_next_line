@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dapaulin <dapaulin@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 09:31:00 by dapaulin          #+#    #+#             */
-/*   Updated: 2023/03/13 23:45:36 by dapaulin         ###   ########.fr       */
+/*   Created: 2022/11/06 19:22:39 by dapaulin          #+#    #+#             */
+/*   Updated: 2023/03/14 00:05:13 by dapaulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	g_ft_strlen(const char *str)
 {

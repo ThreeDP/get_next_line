@@ -1,0 +1,14 @@
+name: bonus part
+on: [push]
+jobs:
+  bonus-part:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tests
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: bonus test
+      run: bash run.sh b
